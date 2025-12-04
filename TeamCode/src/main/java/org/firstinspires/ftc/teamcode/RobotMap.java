@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -13,6 +14,8 @@ public class RobotMap {
     public DcMotor backLeft;
     public DcMotor backRight;
 
+    public CRServo lowerRightIndex;
+
     public Gamepad gamepad1;
 
     public IMU imu;
@@ -22,6 +25,7 @@ public class RobotMap {
         frontRight = robot.get(DcMotor.class, "frontRight");
         backLeft = robot.get(DcMotor.class, "backLeft");
         backRight = robot.get(DcMotor.class, "backRight");
+        lowerRightIndex = robot.get(CRServo.class, "lRIndex");
         imu = robot.get(IMU.class, "imu");
     }
 }

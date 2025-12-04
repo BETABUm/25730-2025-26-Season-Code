@@ -9,12 +9,14 @@ import org.firstinspires.ftc.teamcode.Subsystems.MecanumDriveTrain;
 @TeleOp
 public class MainTeleOp extends OpMode{
 
+    // still understanding this
     RobotMap robot = new RobotMap();
     Intake intake;
 
+    // instance of drive train so we can access functions
     MecanumDriveTrain mecanumDriveTrain = new MecanumDriveTrain(robot);
 
-    // Initialization code
+    // Initialization code (still understanding)
     @Override
     public void init(){
        robot.init(hardwareMap);
@@ -22,9 +24,10 @@ public class MainTeleOp extends OpMode{
     }
 
     // Main code and functions go here
+    // Last year we didn't do this, but it's good to have buttons in one file
     @Override
     public void loop(){
-        // a button, boolean value
+        // a button, a boolean value
         if (gamepad1.a){
              intake.set_power(.5);
         }
@@ -46,10 +49,10 @@ public class MainTeleOp extends OpMode{
 
         // right trigger (RT), acts like a joystick of values from -1.0 to 1.0
 
+        // drivetrain code
+        mecanumDriveTrain.Drive(gamepad1.right_stick_x, gamepad1.left_stick_y, gamepad1.left_stick_x);
+
         // Adds revolution for intake motor to Telemetry
-
-        mecanumDriveTrain.Drive(gamepad1);
-
 
         telemetry.addData("Revs on Intake", intake.get_encoder());
         telemetry.update();
