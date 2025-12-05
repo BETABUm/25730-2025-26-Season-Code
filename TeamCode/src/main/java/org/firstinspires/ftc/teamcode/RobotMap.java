@@ -14,6 +14,10 @@ public class RobotMap {
     public DcMotor backLeft;
     public DcMotor backRight;
 
+    public DcMotor shooterBack;
+
+    public DcMotor shooterFront;
+
     public CRServo lowerRightIndex;
 
     public Gamepad gamepad1;
@@ -27,5 +31,7 @@ public class RobotMap {
         backRight = robot.get(DcMotor.class, "backRight");
         lowerRightIndex = robot.get(CRServo.class, "lRIndex");
         imu = robot.get(IMU.class, "imu");
+        shooterBack = robot.get(DcMotor.class, "shooterFront");
+        shooterFront = robot.get(DcMotor.class, "shooterBack");
     }
 }

@@ -30,6 +30,7 @@ public class MainTeleOp extends OpMode{
         // a button, a boolean value
         if (gamepad1.a){
              intake.set_power(.5);
+             intake.setPowerRevs(.5, 5);
         }
 
         // b button, boolean value

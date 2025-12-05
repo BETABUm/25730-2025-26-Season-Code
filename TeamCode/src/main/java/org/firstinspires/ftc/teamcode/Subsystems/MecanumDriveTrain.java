@@ -25,9 +25,9 @@ public class MecanumDriveTrain {
     // drivetrain math from last year
     public void Drive (double right_stick_x, double left_stick_y, double left_stick_x) {
 
-        rotate = right_stick_x;
-        forward = left_stick_y;
-        strafe = left_stick_x;
+        double rotate = right_stick_x;
+        double forward = left_stick_y;
+        double strafe = left_stick_x;
 
         double theta = Math.atan2(forward, strafe);
         double magnitude = Math.sqrt((forward * forward) + (strafe * strafe));
