@@ -30,15 +30,15 @@ public class Intake {
     public double get_encoder(){
         double ticksPerRev = robot.intake.getMotorType().getTicksPerRev();
         //this gives us revolutions, which is better than encoder ticks and a more reliable
-        double revs = robot.intake.getCurrentPosition() / ticksPerRev; //* gear ratio;
-        return revs;
+        //* gear ratio;
+        return robot.intake.getCurrentPosition() / ticksPerRev * 20;
 
     }
 
     public void setPowerRevs(double power, double revs){
         robot.intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.intake.setPower(power);
-        double ticksPerRev = robot.intake.getMotorType().getTicksPerRev();
+        double ticksPerRev = robot.intake.getMotorType().getTicksPerRev() * 20;
         revs = revs * ticksPerRev;
         robot.intake.setTargetPosition((int)revs);
     }

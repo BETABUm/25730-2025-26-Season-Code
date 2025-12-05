@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
+
 
 @TeleOp
 public class MainTeleOp extends OpMode{
@@ -12,6 +14,8 @@ public class MainTeleOp extends OpMode{
     // still understanding this
     RobotMap robot = new RobotMap();
     Intake intake;
+
+    Shooter shooter;
 
     // instance of drive train so we can access functions
     MecanumDriveTrain mecanumDriveTrain = new MecanumDriveTrain(robot);
@@ -36,6 +40,14 @@ public class MainTeleOp extends OpMode{
         // b button, boolean value
         if (gamepad1.b){
             intake.stop();
+        }
+
+        if (gamepad1.x){
+            shooter.stop();
+        }
+
+        if (gamepad1.y){
+            shooter.setPowerRevs(-.5, -.5,5, 5 );
         }
 
         // x button, boolean value
