@@ -17,14 +17,19 @@ public class MainTeleOp extends OpMode{
 
     Shooter shooter;
 
+    MecanumDriveTrain mecanumDriveTrain;
+
+
     // instance of drive train so we can access functions
-    MecanumDriveTrain mecanumDriveTrain = new MecanumDriveTrain(robot);
+
 
     // Initialization code (still understanding)
     @Override
     public void init(){
        robot.init(hardwareMap);
        intake = new Intake(robot);
+       shooter = new Shooter(robot);
+       mecanumDriveTrain = new MecanumDriveTrain(robot);
     }
 
     // Main code and functions go here
