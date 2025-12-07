@@ -14,13 +14,8 @@ public class MainTeleOp extends OpMode{
     // still understanding this
     RobotMap robot = new RobotMap();
     Intake intake;
-
     Shooter shooter;
-
     MecanumDriveTrain mecanumDriveTrain;
-
-
-    // instance of drive train so we can access functions
 
 
     // Initialization code (still understanding)

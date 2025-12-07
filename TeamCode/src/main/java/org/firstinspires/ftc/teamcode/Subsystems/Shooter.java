@@ -39,20 +39,25 @@ public class Shooter {
     }
 
     public void setPowerRevs(double powerf,double powers, double revsFront, double revsBack){
-        robot.shooterBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.shooterFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.shooterBack.setPower(powerf);
-        robot.shooterFront.setPower(powers);
+
         double ticksPerRevFront = robot.shooterFront.getMotorType().getTicksPerRev();
         double ticksPerRevBack = robot.shooterBack.getMotorType().getTicksPerRev();
+
         revsFront = revsFront * ticksPerRevFront;
         revsBack = revsBack * ticksPerRevBack;
 
         robot.shooterBack.setTargetPosition((int)revsBack);
         robot.shooterFront.setTargetPosition((int)revsFront);
+
+        robot.shooterBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.shooterFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.shooterBack.setPower(powerf);
+        robot.shooterFront.setPower(powers);
+
     }
 
-    // stops intake
+    // stops
     public void stop(){
         robot.shooterBack.setPower(0);
         robot.shooterFront.setPower(0);

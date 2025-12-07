@@ -13,15 +13,10 @@ public class RobotMap {
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
-
     public DcMotor shooterBack;
-
     public DcMotor shooterFront;
-
     public CRServo lowerRightIndex;
-
     public Gamepad gamepad1;
-
     public IMU imu;
     public void init(HardwareMap robot) {
         intake = robot.get(DcMotor.class, "intake");
