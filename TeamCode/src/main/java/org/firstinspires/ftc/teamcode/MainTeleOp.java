@@ -69,5 +69,6 @@ public class MainTeleOp extends OpMode{
 
         telemetry.addData("Revs on Intake", intake.get_encoder());
         telemetry.update();
+
     }
 }

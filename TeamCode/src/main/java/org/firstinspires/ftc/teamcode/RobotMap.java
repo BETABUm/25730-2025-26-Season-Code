@@ -18,6 +18,7 @@ public class RobotMap {
     public CRServo lowerRightIndex;
     public Gamepad gamepad1;
     public IMU imu;
+
     public void init(HardwareMap robot) {
         intake = robot.get(DcMotor.class, "intake");
         frontLeft = robot.get(DcMotor.class, "frontLeft");
