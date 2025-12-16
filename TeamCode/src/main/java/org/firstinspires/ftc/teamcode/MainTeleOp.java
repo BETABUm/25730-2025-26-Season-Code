@@ -17,6 +17,8 @@ public class MainTeleOp extends OpMode{
     Shooter shooter;
     MecanumDriveTrain mecanumDriveTrain;
 
+    limitSwitch limitSwitch;
+
 
     // Initialization code (still understanding)
     @Override
@@ -25,6 +27,7 @@ public class MainTeleOp extends OpMode{
        intake = new Intake(robot);
        shooter = new Shooter(robot);
        mecanumDriveTrain = new MecanumDriveTrain(robot);
+       limitSwitch = new limitSwitch(robot);
     }
 
     // Main code and functions go here
@@ -33,8 +36,7 @@ public class MainTeleOp extends OpMode{
     public void loop(){
         // a button, a boolean value
         if (gamepad1.a){
-             intake.set_power(.5);
-             intake.setPowerRevs(.5, 5);
+             intake.setPowerRevs(1, -5);
         }
 
         // b button, boolean value
@@ -47,7 +49,7 @@ public class MainTeleOp extends OpMode{
         }
 
         if (gamepad1.y){
-            shooter.setPowerRevs(-.5, -.5,5, 5 );
+            shooter.set_power(.5);
         }
 
         // x button, boolean value
@@ -63,12 +65,15 @@ public class MainTeleOp extends OpMode{
         // right trigger (RT), acts like a joystick of values from -1.0 to 1.0
 
         // drivetrain code
-        mecanumDriveTrain.Drive(gamepad1.right_stick_x, gamepad1.left_stick_y, gamepad1.left_stick_x);
+        // mecanumDriveTrain.Drive(gamepad1.right_stick_x, gamepad1.left_stick_y, gamepad1.left_stick_x);
 
         // Adds revolution for intake motor to Telemetry
 
         telemetry.addData("Revs on Intake", intake.get_encoder());
+        telemetry.addData("limitSwitch", limitSwitch.get_encoder());
         telemetry.update();
+
+
 
     }
 }
