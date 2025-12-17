@@ -5,7 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.Servo;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.Subsystems.limitSwitch;
 
 
 @TeleOp
@@ -16,7 +18,7 @@ public class MainTeleOp extends OpMode{
     Intake intake;
     Shooter shooter;
     MecanumDriveTrain mecanumDriveTrain;
-
+    Servo servo;
     limitSwitch limitSwitch;
 
 
@@ -28,6 +30,7 @@ public class MainTeleOp extends OpMode{
        shooter = new Shooter(robot);
        mecanumDriveTrain = new MecanumDriveTrain(robot);
        limitSwitch = new limitSwitch(robot);
+       servo = new Servo(robot);
     }
 
     // Main code and functions go here
@@ -52,6 +55,10 @@ public class MainTeleOp extends OpMode{
             shooter.set_power(.5);
         }
 
+        if(gamepad1.right_bumper){
+            servo.setPower(1);
+        }
+
         // x button, boolean value
 
         // y button, boolean value
@@ -72,8 +79,6 @@ public class MainTeleOp extends OpMode{
         telemetry.addData("Revs on Intake", intake.get_encoder());
         telemetry.addData("limitSwitch", limitSwitch.get_encoder());
         telemetry.update();
-
-
 
     }
 }

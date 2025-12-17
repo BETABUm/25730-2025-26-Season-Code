@@ -18,6 +18,9 @@ public class RobotMap {
     public DcMotor shooterFront;
     public Gamepad gamepad1;
     public IMU imu;
+    public CRServo leftindex1;
+
+    public CRServo rightindex1;
 
     public DigitalChannel limitSwitch;
 
@@ -31,5 +34,7 @@ public class RobotMap {
         shooterBack = robot.get(DcMotor.class, "shooterFront");
         shooterFront = robot.get(DcMotor.class, "shooterBack");
         limitSwitch = robot.get(DigitalChannel.class, "limitSwitch");
+        leftindex1 = robot.get(CRServo.class, "leftindex1");
+        rightindex1 = robot.get(CRServo.class, "rightindex1");
     }
 }
