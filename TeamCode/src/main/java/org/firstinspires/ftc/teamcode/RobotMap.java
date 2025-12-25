@@ -22,6 +22,10 @@ public class RobotMap {
 
     public CRServo rightindex1;
 
+    public CRServo index2;
+
+    public CRServo index3;
+
     public DigitalChannel limitSwitch;
 
     public void init(HardwareMap robot) {
@@ -36,5 +40,7 @@ public class RobotMap {
         limitSwitch = robot.get(DigitalChannel.class, "limitSwitch");
         leftindex1 = robot.get(CRServo.class, "leftindex1");
         rightindex1 = robot.get(CRServo.class, "rightindex1");
+        index2 = robot.get(CRServo.class, "index2");
+        index3 = robot.get(CRServo.class, "index3");
     }
 }

@@ -1,14 +1,14 @@
-package org.firstinspires.ftc.teamcode.Subsystems;
+package org.firstinspires.ftc.teamcode.Individuals;
 
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
 
-public class limitSwitch {
+public class LimitSwitch {
     //still understanding this line and the constructor
     //think of robot as the place to access our motors, servos, etc
     private RobotMap robot;
-    public limitSwitch (RobotMap robot){
+    public LimitSwitch(RobotMap robot){
 
         this.robot = robot;
 

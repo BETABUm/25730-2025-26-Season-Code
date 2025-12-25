@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode.Subsystems;
+package org.firstinspires.ftc.teamcode.Individuals;
+
+import static java.lang.Math.abs;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
 
@@ -19,7 +20,7 @@ public class Intake {
 
 
     // basic function to set the power of the intake motor. robot.intake lets us access the motor from our "robot"
-    public void set_power(double power){
+    public void setPower(double power){
 
         robot.intake.setPower(power);
 
@@ -47,19 +48,25 @@ public class Intake {
         robot.intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         double ticksPerRev = robot.intake.getMotorType().getTicksPerRev() * 20;
         revs = revs * ticksPerRev;
+
         robot.intake.setTargetPosition((int)revs);
         robot.intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         robot.intake.setPower(power);
 
+        if (robot.intake.getCurrentPosition() >= Math.abs(revs)) {
+            stop();
+        }
     }
 
+    public double get_posintake(){
+        return (robot.intake.getCurrentPosition());
+
+    }
     // stops intake
     public void stop(){
 
         robot.intake.setPower(0);
 
     }
-
-
 }

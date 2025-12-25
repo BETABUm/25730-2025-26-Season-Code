@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
 
-public class MecanumDriveTrain {
+public class DriveTrainSystem {
     private RobotMap robot;
-    public MecanumDriveTrain (RobotMap robot) {
+    public DriveTrainSystem(RobotMap robot) {
 
         this.robot = robot;
 

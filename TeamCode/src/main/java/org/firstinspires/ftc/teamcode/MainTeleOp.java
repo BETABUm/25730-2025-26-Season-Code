@@ -3,11 +3,14 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Intake;
-import org.firstinspires.ftc.teamcode.Subsystems.MecanumDriveTrain;
-import org.firstinspires.ftc.teamcode.Subsystems.Servo;
-import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
-import org.firstinspires.ftc.teamcode.Subsystems.limitSwitch;
+import org.firstinspires.ftc.teamcode.Individuals.Servo2;
+import org.firstinspires.ftc.teamcode.Individuals.Servo3;
+import org.firstinspires.ftc.teamcode.Individuals.Intake;
+import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainSystem;
+import org.firstinspires.ftc.teamcode.Individuals.LowServo;
+import org.firstinspires.ftc.teamcode.Individuals.Shooter;
+import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch;
+import org.firstinspires.ftc.teamcode.Subsystems.IndexSystem;
 
 
 @TeleOp
@@ -17,9 +20,15 @@ public class MainTeleOp extends OpMode{
     RobotMap robot = new RobotMap();
     Intake intake;
     Shooter shooter;
-    MecanumDriveTrain mecanumDriveTrain;
-    Servo servo;
-    limitSwitch limitSwitch;
+    DriveTrainSystem mecanumDriveTrain;
+    LowServo lowIndex;
+    LimitSwitch limitSwitch;
+
+    Servo2 servo2;
+
+    Servo3 servo3;
+
+    IndexSystem indexSystem;
 
 
     // Initialization code (still understanding)
@@ -28,9 +37,12 @@ public class MainTeleOp extends OpMode{
        robot.init(hardwareMap);
        intake = new Intake(robot);
        shooter = new Shooter(robot);
-       mecanumDriveTrain = new MecanumDriveTrain(robot);
-       limitSwitch = new limitSwitch(robot);
-       servo = new Servo(robot);
+       mecanumDriveTrain = new DriveTrainSystem(robot);
+       limitSwitch = new LimitSwitch(robot);
+       lowIndex = new LowServo(robot);
+       servo2 = new Servo2(robot);
+       servo3 = new Servo3(robot);
+       indexSystem = new IndexSystem(robot);
     }
 
     // Main code and functions go here
@@ -39,7 +51,7 @@ public class MainTeleOp extends OpMode{
     public void loop(){
         // a button, a boolean value
         if (gamepad1.a){
-             intake.setPowerRevs(1, -5);
+             intake.setPowerRevs(1, -3);
         }
 
         // b button, boolean value
@@ -52,11 +64,24 @@ public class MainTeleOp extends OpMode{
         }
 
         if (gamepad1.y){
-            shooter.set_power(.5);
+           shooter.setPowerRevs(.5, .67, 4, 4);
         }
 
         if(gamepad1.right_bumper){
-            servo.setPower(1);
+            lowIndex.setPower(1, 1);
+
+        }
+
+        if(gamepad1.dpad_left){
+            servo2.setPower(1);
+        }
+
+        if(gamepad1.dpad_right){
+            servo3.setPower(1);
+        }
+
+        if((gamepad1.right_trigger) >= 0.69){
+            indexSystem.intakeBall(1, -2, 1, 1, 1, 1);
         }
 
         // x button, boolean value
@@ -77,7 +102,12 @@ public class MainTeleOp extends OpMode{
         // Adds revolution for intake motor to Telemetry
 
         telemetry.addData("Revs on Intake", intake.get_encoder());
+        telemetry.addData("Revs Pos", intake.get_posintake());
         telemetry.addData("limitSwitch", limitSwitch.get_encoder());
+        telemetry.addData("shooter front revs", shooter.get_encoderf());
+        telemetry.addData("shooter back revs", shooter.get_encoderb());
+        telemetry.addData("shooterback pos", shooter.get_posb());
+        telemetry.addData("Shooter Back Revs", shooter.getRevsBack(2));
         telemetry.update();
 
     }
