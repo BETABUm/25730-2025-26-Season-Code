@@ -28,6 +28,8 @@ public class RobotMap {
 
     public DigitalChannel limitSwitch;
 
+    public DigitalChannel limitSwitch2;
+
     public void init(HardwareMap robot) {
         intake = robot.get(DcMotor.class, "intake");
         frontLeft = robot.get(DcMotor.class, "frontLeft");
@@ -38,6 +40,7 @@ public class RobotMap {
         shooterBack = robot.get(DcMotor.class, "shooterFront");
         shooterFront = robot.get(DcMotor.class, "shooterBack");
         limitSwitch = robot.get(DigitalChannel.class, "limitSwitch");
+        limitSwitch2 = robot.get(DigitalChannel.class, "limitSwitch2");
         leftindex1 = robot.get(CRServo.class, "leftindex1");
         rightindex1 = robot.get(CRServo.class, "rightindex1");
         index2 = robot.get(CRServo.class, "index2");
