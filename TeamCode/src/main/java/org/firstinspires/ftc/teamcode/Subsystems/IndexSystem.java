@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
-import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.teamcode.Individuals.Intake;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch;
@@ -27,15 +26,13 @@ public class IndexSystem {
         limitSwitch = new LimitSwitch(robot);
     }
 
-    public void intakeBall (double intakePow, double intakeRevs, double lowServoRight, double lowServoLeft, double servoTwoPower, double servoThreePower){
-        intake.setPowerRevs(intakePow, intakeRevs);
-        if (limitSwitch.get_encoder()) {
-            intake.stop();
-            lowServo.setPower(lowServoLeft, lowServoRight);
-            servoTwo.setPower(servoTwoPower);
-            servoThree.setPower(servoThreePower);
+    public void intakeBall (double intakePow, double lowServoRight, double lowServoLeft, double servoTwoPower, double servoThreePower){
+            if (limitSwitch.get_value() == 1) {
+                intake.stop();
+                lowServo.setPower(lowServoLeft,lowServoRight);
+
+            }
+
         }
     }
 
-
-}

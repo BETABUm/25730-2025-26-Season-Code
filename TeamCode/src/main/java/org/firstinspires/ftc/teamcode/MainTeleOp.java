@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch2;
+import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch3;
 import org.firstinspires.ftc.teamcode.Individuals.Servo2;
 import org.firstinspires.ftc.teamcode.Individuals.Servo3;
 import org.firstinspires.ftc.teamcode.Individuals.Intake;
@@ -23,13 +25,11 @@ public class MainTeleOp extends OpMode{
     DriveTrainSystem mecanumDriveTrain;
     LowServo lowIndex;
     LimitSwitch limitSwitch;
-
+    LimitSwitch2 limitSwitch2;
+    LimitSwitch3 limitSwitch3;
     Servo2 servo2;
-
     Servo3 servo3;
-
     IndexSystem indexSystem;
-
 
     // Initialization code (still understanding)
     @Override
@@ -39,6 +39,8 @@ public class MainTeleOp extends OpMode{
        shooter = new Shooter(robot);
        mecanumDriveTrain = new DriveTrainSystem(robot);
        limitSwitch = new LimitSwitch(robot);
+       limitSwitch2 = new LimitSwitch2(robot);
+       limitSwitch3 = new LimitSwitch3(robot);
        lowIndex = new LowServo(robot);
        servo2 = new Servo2(robot);
        servo3 = new Servo3(robot);
@@ -51,9 +53,16 @@ public class MainTeleOp extends OpMode{
     public void loop(){
         // a button, a boolean value
         if (gamepad1.a){
-             intake.setPowerRevs(1, -3);
+             intake.setPowerRevs(1, -1);
         }
 
+        if ((robot.intake.getCurrentPosition() <= robot.intake.getTargetPosition() + 100) && (robot.intake.getCurrentPosition() > robot.intake.getTargetPosition()-100)) {
+            intake.stop();
+        }
+
+        if ((robot.shooterBack.getCurrentPosition() <= robot.shooterBack.getTargetPosition() + 100) && (robot.shooterBack.getCurrentPosition() > robot.shooterBack.getTargetPosition()-100)) {
+            shooter.stop();
+        }
         // b button, boolean value
         if (gamepad1.b){
             intake.stop();
@@ -64,12 +73,11 @@ public class MainTeleOp extends OpMode{
         }
 
         if (gamepad1.y){
-           shooter.setPowerRevs(.5, .67, 4, 4);
+           shooter.setPowerRevs(.1, .1, 1, 1);
         }
 
         if(gamepad1.right_bumper){
             lowIndex.setPower(1, 1);
-
         }
 
         if(gamepad1.dpad_left){
@@ -80,35 +88,24 @@ public class MainTeleOp extends OpMode{
             servo3.setPower(1);
         }
 
-        if((gamepad1.right_trigger) >= 0.69){
-            indexSystem.intakeBall(1, -2, 1, 1, 1, 1);
+        if(gamepad1.right_trigger >= .69) {
+            indexSystem.intakeBall(1, 1, 1, 1, 1);
         }
 
-        // x button, boolean value
-
-        // y button, boolean value
-
-        // left bumper (LB), boolean value
-
-        // right bumper (RB), boolean value
-
-        // left trigger (LT), acts like a joystick of values from -1.0 to 1.0
-
-        // right trigger (RT), acts like a joystick of values from -1.0 to 1.0
-
-        // drivetrain code
         // mecanumDriveTrain.Drive(gamepad1.right_stick_x, gamepad1.left_stick_y, gamepad1.left_stick_x);
-
-        // Adds revolution for intake motor to Telemetry
 
         telemetry.addData("Revs on Intake", intake.get_encoder());
         telemetry.addData("Revs Pos", intake.get_posintake());
-        telemetry.addData("limitSwitch", limitSwitch.get_encoder());
+        telemetry.addData("limitSwitch number of times", limitSwitch.get_value());
+        telemetry.addData("limit switch 2 number of times", limitSwitch2.get_value());
+        telemetry.addData("limit switch 3 number of times", limitSwitch3.get_value());
         telemetry.addData("shooter front revs", shooter.get_encoderf());
         telemetry.addData("shooter back revs", shooter.get_encoderb());
         telemetry.addData("shooterback pos", shooter.get_posb());
         telemetry.addData("Shooter Back Revs", shooter.getRevsBack(2));
+        telemetry.addData("Intake running", intake.get_state());
         telemetry.update();
 
     }
+
 }

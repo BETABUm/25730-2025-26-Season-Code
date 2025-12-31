@@ -47,21 +47,21 @@ public class Intake {
     public void setPowerRevs(double power, double revs){
         robot.intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         double ticksPerRev = robot.intake.getMotorType().getTicksPerRev() * 20;
-        revs = revs * ticksPerRev;
-
-        robot.intake.setTargetPosition((int)revs);
+        int targetPos = (int)(revs * ticksPerRev);
+        robot.intake.setTargetPosition(targetPos);
         robot.intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         robot.intake.setPower(power);
 
-        if (robot.intake.getCurrentPosition() >= Math.abs(revs)) {
-            stop();
+
         }
-    }
+
 
     public double get_posintake(){
         return (robot.intake.getCurrentPosition());
+    }
 
+    public boolean get_state(){
+        return robot.intake.isBusy();
     }
     // stops intake
     public void stop(){
