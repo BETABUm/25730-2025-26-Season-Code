@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch2;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch3;
+import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch4;
 import org.firstinspires.ftc.teamcode.Individuals.Servo2;
 import org.firstinspires.ftc.teamcode.Individuals.Servo3;
 import org.firstinspires.ftc.teamcode.Individuals.Intake;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Individuals.LowServo;
 import org.firstinspires.ftc.teamcode.Individuals.Shooter;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch;
 import org.firstinspires.ftc.teamcode.Subsystems.IndexSystem;
+import org.firstinspires.ftc.teamcode.Subsystems.ShooterSystem;
 
 
 @TeleOp
@@ -27,9 +29,11 @@ public class MainTeleOp extends OpMode{
     LimitSwitch limitSwitch;
     LimitSwitch2 limitSwitch2;
     LimitSwitch3 limitSwitch3;
+    LimitSwitch4 limitSwitch4;
     Servo2 servo2;
     Servo3 servo3;
     IndexSystem indexSystem;
+    ShooterSystem shooterSystem;
 
     // Initialization code (still understanding)
     @Override
@@ -41,10 +45,12 @@ public class MainTeleOp extends OpMode{
        limitSwitch = new LimitSwitch(robot);
        limitSwitch2 = new LimitSwitch2(robot);
        limitSwitch3 = new LimitSwitch3(robot);
+       limitSwitch4 = new LimitSwitch4(robot);
        lowIndex = new LowServo(robot);
        servo2 = new Servo2(robot);
        servo3 = new Servo3(robot);
        indexSystem = new IndexSystem(robot);
+       shooterSystem = new ShooterSystem(robot);
     }
 
     // Main code and functions go here
@@ -65,7 +71,7 @@ public class MainTeleOp extends OpMode{
         }
         // b button, boolean value
         if (gamepad1.b){
-            intake.stop();
+            indexSystem.stopAll();
         }
 
         if (gamepad1.x){
@@ -73,7 +79,7 @@ public class MainTeleOp extends OpMode{
         }
 
         if (gamepad1.y){
-           shooter.setPowerRevs(.1, .1, 1, 1);
+           shooterSystem.shootBall(750, 750, 20, 20, 1, 1, 1,1);
         }
 
         if(gamepad1.right_bumper){
@@ -89,7 +95,7 @@ public class MainTeleOp extends OpMode{
         }
 
         if(gamepad1.right_trigger >= .69) {
-            indexSystem.intakeBall(1, 1, 1, 1, 1);
+            indexSystem.intakeBall(-1, 1, 1, 1, 1);
         }
 
         // mecanumDriveTrain.Drive(gamepad1.right_stick_x, gamepad1.left_stick_y, gamepad1.left_stick_x);
@@ -99,6 +105,7 @@ public class MainTeleOp extends OpMode{
         telemetry.addData("limitSwitch number of times", limitSwitch.get_value());
         telemetry.addData("limit switch 2 number of times", limitSwitch2.get_value());
         telemetry.addData("limit switch 3 number of times", limitSwitch3.get_value());
+        telemetry.addData("limit switch 4 number of times", limitSwitch4.get_value());
         telemetry.addData("shooter front revs", shooter.get_encoderf());
         telemetry.addData("shooter back revs", shooter.get_encoderb());
         telemetry.addData("shooterback pos", shooter.get_posb());

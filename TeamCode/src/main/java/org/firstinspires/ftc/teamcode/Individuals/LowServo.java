@@ -8,17 +8,18 @@ public class LowServo {
     private RobotMap robot;
 
     public LowServo(RobotMap robot){
-
         this.robot = robot;
-
     }
 
     public void setPower(double powerLeft, double powerRight){
-
         robot.leftindex1.setPower(powerLeft);
         robot.rightindex1.setPower(powerRight);
         robot.rightindex1.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
 
+    public void stop(){
+        robot.leftindex1.setPower(0);
+        robot.rightindex1.setPower(0);
     }
 }
 

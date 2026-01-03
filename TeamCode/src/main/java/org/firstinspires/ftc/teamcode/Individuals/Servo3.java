@@ -8,15 +8,16 @@ public class Servo3 {
     private RobotMap robot;
 
     public Servo3(RobotMap robot){
-
         this.robot = robot;
 
     }
 
     public void setPower(double power){
-
         robot.index3.setPower(power);
         robot.index3.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
 
+    public void stop(){
+        robot.index3.setPower(0);
     }
 }
