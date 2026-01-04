@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch2;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch3;
@@ -58,8 +59,30 @@ public class MainTeleOp extends OpMode{
     @Override
     public void loop(){
         // a button, a boolean value
+        if (gamepad1.right_trigger >= .69){
+             indexSystem.intakeBall(-1, 1, 1, 1, 1);
+             robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+             robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+
+        if (gamepad1.b){
+            indexSystem.stopAll();
+        }
+
+        if(gamepad1.left_trigger >= .69) {
+            shooterSystem.shootBall(750, 750, 20, 20, 1, 1, 1,1);
+        }
+
+        if(gamepad1.dpad_left){
+            shooterSystem.stop();
+        }
+
+        if (gamepad1.x){
+            indexSystem.stopServos();
+        }
+
         if (gamepad1.a){
-             intake.setPowerRevs(1, -1);
+            indexSystem.runServos(1,1,1,1);
         }
 
         if ((robot.intake.getCurrentPosition() <= robot.intake.getTargetPosition() + 100) && (robot.intake.getCurrentPosition() > robot.intake.getTargetPosition()-100)) {
@@ -69,48 +92,15 @@ public class MainTeleOp extends OpMode{
         if ((robot.shooterBack.getCurrentPosition() <= robot.shooterBack.getTargetPosition() + 100) && (robot.shooterBack.getCurrentPosition() > robot.shooterBack.getTargetPosition()-100)) {
             shooter.stop();
         }
-        // b button, boolean value
-        if (gamepad1.b){
-            indexSystem.stopAll();
-        }
 
-        if (gamepad1.x){
-            shooter.stop();
-        }
-
-        if (gamepad1.y){
-           shooterSystem.shootBall(750, 750, 20, 20, 1, 1, 1,1);
-        }
-
-        if(gamepad1.right_bumper){
-            lowIndex.setPower(1, 1);
-        }
-
-        if(gamepad1.dpad_left){
-            servo2.setPower(1);
-        }
-
-        if(gamepad1.dpad_right){
-            servo3.setPower(1);
-        }
-
-        if(gamepad1.right_trigger >= .69) {
-            indexSystem.intakeBall(-1, 1, 1, 1, 1);
-        }
-
-        // mecanumDriveTrain.Drive(gamepad1.right_stick_x, gamepad1.left_stick_y, gamepad1.left_stick_x);
+        mecanumDriveTrain.Drive(gamepad1.right_stick_x, gamepad1.left_stick_y, -gamepad1.left_stick_x);
 
         telemetry.addData("Revs on Intake", intake.get_encoder());
-        telemetry.addData("Revs Pos", intake.get_posintake());
         telemetry.addData("limitSwitch number of times", limitSwitch.get_value());
         telemetry.addData("limit switch 2 number of times", limitSwitch2.get_value());
         telemetry.addData("limit switch 3 number of times", limitSwitch3.get_value());
         telemetry.addData("limit switch 4 number of times", limitSwitch4.get_value());
         telemetry.addData("shooter front revs", shooter.get_encoderf());
-        telemetry.addData("shooter back revs", shooter.get_encoderb());
-        telemetry.addData("shooterback pos", shooter.get_posb());
-        telemetry.addData("Shooter Back Revs", shooter.getRevsBack(2));
-        telemetry.addData("Intake running", intake.get_state());
         telemetry.update();
 
     }

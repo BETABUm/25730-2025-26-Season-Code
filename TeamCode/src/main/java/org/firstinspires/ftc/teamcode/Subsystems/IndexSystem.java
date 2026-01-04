@@ -58,9 +58,9 @@ public class IndexSystem {
                 servoTwo.stop();
                 servoThree.setPower(servoThreePower);
             }
-            if(limitSwitch4.get_value() == 1){
-                servoThree.stop();
-            }
+            //if(limitSwitch4.get_value() == 1){
+               // servoThree.stop();
+           // }
             if(limitSwitch.get_value() == 2){
                 lowServo.setPower(lowServoLeft, lowServoRight);
             }

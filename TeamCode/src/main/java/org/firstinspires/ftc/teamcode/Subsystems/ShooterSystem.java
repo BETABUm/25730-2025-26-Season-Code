@@ -54,11 +54,19 @@ public class ShooterSystem {
             if(limitSwitch.get_value() == 1 && limitSwitch4.get_value() == 1){
                 indexSystem.stopServos();
             }
+
         }
 
         if(!robot.shooterFront.isBusy() && !robot.shooterBack.isBusy()){
             robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
+    }
+
+    public void stop(){
+        shooter.stop();
+        lowServo.stop();
+        servo2.stop();
+        servo3.stop();
     }
 }

@@ -23,9 +23,9 @@ public class DriveTrainSystem {
     // drivetrain math from last year
     public void Drive (double right_stick_x, double left_stick_y, double left_stick_x) {
 
-        double rotate = right_stick_x;
-        double forward = left_stick_y;
-        double strafe = left_stick_x;
+        double rotate = Math.pow(right_stick_x, 5.0);
+        double forward = Math.pow(left_stick_y, 5.0);
+        double strafe = Math.pow(left_stick_x, 5.0);
 
         double theta = Math.atan2(forward, strafe);
         double magnitude = Math.sqrt((forward * forward) + (strafe * strafe));
@@ -35,13 +35,13 @@ public class DriveTrainSystem {
 
         double maxPower = Math.max(Math.abs(cos), Math.abs(sin));
 
-        double frontLeft = (magnitude * cos + rotate) / maxPower;
-        double backLeft  = (magnitude * sin + rotate) / maxPower;
-        double frontRight = (magnitude * sin - rotate) / maxPower;
-        double backRight  = (magnitude * cos - rotate) / maxPower;
+        double frontLeft = (magnitude * cos + rotate * .7) / maxPower;
+        double backLeft  = (magnitude * sin + rotate * .7) / maxPower;
+        double frontRight = (magnitude * sin - rotate * .7) / maxPower;
+        double backRight  = (magnitude * cos - rotate * .7) / maxPower;
 
         robot.frontLeft.setPower(frontLeft);
-        robot.backLeft.setPower(backLeft);
+        robot.backLeft.setPower(-backLeft);
         robot.frontRight.setPower(frontRight);
         robot.backRight.setPower(backRight);
 
