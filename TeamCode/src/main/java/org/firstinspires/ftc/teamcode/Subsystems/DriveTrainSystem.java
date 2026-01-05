@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
 
 public class DriveTrainSystem {
     private RobotMap robot;
+    private Gamepad gamepad1;
+    private double sigmamode;
     public DriveTrainSystem(RobotMap robot) {
 
         this.robot = robot;
@@ -22,10 +25,16 @@ public class DriveTrainSystem {
 
     // drivetrain math from last year
     public void Drive (double right_stick_x, double left_stick_y, double left_stick_x) {
-
-        double rotate = Math.pow(right_stick_x, 5.0);
-        double forward = Math.pow(left_stick_y, 5.0);
-        double strafe = Math.pow(left_stick_x, 5.0);
+        if(robot.gamepad1.right_bumper){
+            sigmamode = .25;
+        } else if(robot.gamepad1.left_bumper){
+            sigmamode = 1;
+        } else {
+            sigmamode = .75;
+        }
+        double rotate = right_stick_x * sigmamode;
+        double forward = left_stick_y * sigmamode;
+        double strafe = left_stick_x * sigmamode;
 
         double theta = Math.atan2(forward, strafe);
         double magnitude = Math.sqrt((forward * forward) + (strafe * strafe));
