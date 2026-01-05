@@ -52,6 +52,8 @@ public class MainTeleOp extends OpMode{
        servo3 = new Servo3(robot);
        indexSystem = new IndexSystem(robot);
        shooterSystem = new ShooterSystem(robot);
+       robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     // Main code and functions go here
@@ -61,8 +63,6 @@ public class MainTeleOp extends OpMode{
         // a button, a boolean value
         if (gamepad1.right_trigger >= .69){
              indexSystem.intakeBall(-1, 1, 1, 1, 1);
-             robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-             robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
 
         if (gamepad1.b){
@@ -93,7 +93,7 @@ public class MainTeleOp extends OpMode{
             shooter.stop();
         }
 
-        mecanumDriveTrain.Drive(gamepad1.right_stick_x, gamepad1.left_stick_y, -gamepad1.left_stick_x);
+        mecanumDriveTrain.Drive(gamepad1.right_stick_x, -gamepad1.left_stick_y, -gamepad1.left_stick_x);
 
         telemetry.addData("Revs on Intake", intake.get_encoder());
         telemetry.addData("limitSwitch number of times", limitSwitch.get_value());

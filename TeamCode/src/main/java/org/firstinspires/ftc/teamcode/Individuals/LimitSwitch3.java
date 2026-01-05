@@ -26,7 +26,12 @@ public class LimitSwitch3 {
         }
 
         lastState = currentState;
-
+        limitSwitchCount = Math.min(limitSwitchCount, 3);
         return limitSwitchCount;
     }
+
+    public void reset_value(){
+        limitSwitchCount = 0;
+    }
+
 }

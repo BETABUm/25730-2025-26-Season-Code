@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch2;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch3;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch4;
+import org.firstinspires.ftc.teamcode.Individuals.LimitSwitchReset;
 import org.firstinspires.ftc.teamcode.Individuals.LowServo;
 import org.firstinspires.ftc.teamcode.Individuals.Servo2;
 import org.firstinspires.ftc.teamcode.Individuals.Servo3;
@@ -25,6 +26,7 @@ public class ShooterSystem {
     private Servo2 servo2;
     private Servo3 servo3;
     private IndexSystem indexSystem;
+    private LimitSwitchReset limitSwitchReset;
 
     public ShooterSystem (RobotMap robot) {
         this.robot = robot;
@@ -34,6 +36,11 @@ public class ShooterSystem {
         servo2 = new Servo2(robot);
         servo3 = new Servo3(robot);
         indexSystem = new IndexSystem(robot);
+        limitSwitch = new LimitSwitch(robot);
+        limitSwitch2 = new LimitSwitch2(robot);
+        limitSwitch3 = new LimitSwitch3(robot);
+        limitSwitch4 = new LimitSwitch4(robot);
+        limitSwitchReset = new LimitSwitchReset(robot);
     }
 
     public void shootBall(double velocityf, double velocityb, double revsf, double revsb, double lowServoPowerL, double lowServoPowerR, double servoTwoPower, double servoThreePower){
@@ -43,23 +50,20 @@ public class ShooterSystem {
         if((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)){
             indexSystem.runServos(servoThreePower, servoTwoPower, lowServoPowerL, lowServoPowerR);
 
-            if(limitSwitch4.get_value() == 3 && limitSwitch.get_value() == 3){
+            if(Math.min(limitSwitch4.get_value(),3) == 3 && Math.min(limitSwitch.get_value(),3) == 3){
                 indexSystem.stopServos();
+                limitSwitchReset.resetLimitSwitches();
             }
 
-            if(limitSwitch.get_value() == 2 && limitSwitch4.get_value() == 2){
+            if(Math.min(limitSwitch.get_value(),2) == 2 && Math.min(limitSwitch4.get_value(),2) == 2){
                 indexSystem.stopServos();
+                limitSwitchReset.resetLimitSwitches();
             }
 
-            if(limitSwitch.get_value() == 1 && limitSwitch4.get_value() == 1){
+            if(Math.min(limitSwitch.get_value(),1) == 1 && Math.min(limitSwitch4.get_value(),1) == 1){
                 indexSystem.stopServos();
+                limitSwitchReset.resetLimitSwitches();
             }
-
-        }
-
-        if(!robot.shooterFront.isBusy() && !robot.shooterBack.isBusy()){
-            robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
     }
 

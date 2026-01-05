@@ -44,39 +44,31 @@ public class IndexSystem {
 
             intake.setPower(intakePow);
 
-            if (limitSwitch.get_value() == 1){
-                lowServo.setPower(lowServoLeft, lowServoRight);
+            if (Math.min(limitSwitch.get_value(),1) == 1){
+                runServos(servoThreePower,servoTwoPower,lowServoLeft,lowServoRight);
                 robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
 
-            if(limitSwitch2.get_value() == 1){
-                lowServo.stop();
+            if(Math.min(limitSwitch4.get_value(),1) == 1){
+                servoThree.stop();
+            }
+
+            if(Math.min(limitSwitch.get_value(),2) == 2){
+                lowServo.setPower(lowServoLeft, lowServoRight);
                 servoTwo.setPower(servoTwoPower);
             }
-            if(limitSwitch3.get_value() == 1){
-                servoTwo.stop();
-                servoThree.setPower(servoThreePower);
-            }
-            //if(limitSwitch4.get_value() == 1){
-               // servoThree.stop();
-           // }
-            if(limitSwitch.get_value() == 2){
-                lowServo.setPower(lowServoLeft, lowServoRight);
-            }
-            if(limitSwitch2.get_value() == 2){
-                lowServo.stop();
-                servoTwo.setPower(servoTwoPower);
-            }
-            if(limitSwitch3.get_value() == 2){
+
+            if(Math.min(limitSwitch3.get_value(),2) == 2){
                 servoTwo.stop();
             }
-            if(limitSwitch.get_value() == 3){
+
+            if(Math.min(limitSwitch.get_value(),3) == 3){
                 lowServo.setPower(lowServoLeft, lowServoRight);
             }
-            if(limitSwitch2.get_value() == 3) {
+
+            if(Math.min(limitSwitch2.get_value(),3) == 3){
                 lowServo.stop();
-                intake.stop();
             }
 
         }
