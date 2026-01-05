@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
-public class DriveFowardAuto {
+public class DriveTrainSystemAuto {
 
 }
