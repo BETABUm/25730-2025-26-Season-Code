@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Individuals.Intake;
@@ -37,9 +36,10 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
     IndexSystem indexSystem;
     ShooterSystem shooterSystem;
     ShooterSystemAuto shooterSystemAuto;
+    DriveTrainSystemAuto driveTrainSystemAuto;
 
-    // Initialization code (still understanding)
     public void runOpMode() {
+
         robot.init(hardwareMap);
         intake = new Intake(robot);
         shooter = new Shooter(robot);
@@ -54,11 +54,16 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
         indexSystem = new IndexSystem(robot);
         shooterSystem = new ShooterSystem(robot);
         shooterSystemAuto = new ShooterSystemAuto(robot);
+        driveTrainSystemAuto = new DriveTrainSystemAuto(robot);
         robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         waitForStart();
-        if (opModeIsActive()) {
+
+        while (opModeIsActive()) {
+
             shooterSystemAuto.shootBallAuto(750, 750, 10, 10, 1, 1, 1, 1);
+            driveTrainSystemAuto.Drive(1000,1000,1000,1000,5);
+
         }
     }
 }
