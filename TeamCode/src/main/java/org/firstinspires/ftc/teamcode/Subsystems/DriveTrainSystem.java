@@ -12,6 +12,7 @@ public class DriveTrainSystem {
     public DriveTrainSystem(RobotMap robot) {
 
         this.robot = robot;
+        gamepad1 = new Gamepad();
 
         robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -24,17 +25,19 @@ public class DriveTrainSystem {
     RevHubOrientationOnRobot revOrientation = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
 
     // drivetrain math from last year
-    public void Drive (double right_stick_x, double left_stick_y, double left_stick_x) {
-        if(robot.gamepad1.right_bumper){
+    public void Drive (double right_stick_x, double left_stick_y, double left_stick_x, boolean right_bumper, boolean left_bumper) {
+
+        if(right_bumper){
             sigmamode = .25;
-        } else if(robot.gamepad1.left_bumper){
+        } else if(left_bumper){
             sigmamode = 1;
         } else {
             sigmamode = .75;
         }
-        double rotate = right_stick_x * sigmamode;
-        double forward = left_stick_y * sigmamode;
-        double strafe = left_stick_x * sigmamode;
+
+        double rotate = right_stick_x;
+        double forward = left_stick_y;
+        double strafe = left_stick_x;
 
         double theta = Math.atan2(forward, strafe);
         double magnitude = Math.sqrt((forward * forward) + (strafe * strafe));
@@ -49,10 +52,20 @@ public class DriveTrainSystem {
         double frontRight = (magnitude * sin - rotate * .7) / maxPower;
         double backRight  = (magnitude * cos - rotate * .7) / maxPower;
 
+        frontLeft = frontLeft * sigmamode;
+        backLeft *= sigmamode;
+        frontRight *= sigmamode;
+        backRight *= sigmamode;
+
         robot.frontLeft.setPower(frontLeft);
         robot.backLeft.setPower(-backLeft);
         robot.frontRight.setPower(frontRight);
         robot.backRight.setPower(backRight);
 
+    }
+
+
+    public double sigmamode(){
+        return sigmamode;
     }
 }

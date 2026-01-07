@@ -26,14 +26,14 @@ public class DriveTrainSystemAuto {
 
             double wheelDiameter = 2.95276;
             double wheelCircumference = wheelDiameter * Math.PI;
-            double ticksPerRev = robot.frontLeft.getMotorType().getTicksPerRev();
+            double ticksPerRev = robot.frontLeft.getMotorType().getTicksPerRev() * 20;
             double revs = inches/wheelCircumference;
             int targetPos = (int)(revs * ticksPerRev);
 
-            robot.frontLeft.setTargetPosition(targetPos);
+            robot.frontLeft.setTargetPosition(-targetPos);
             robot.backLeft.setTargetPosition(targetPos);
-            robot.frontRight.setTargetPosition(targetPos);
-            robot.backRight.setTargetPosition(targetPos);
+            robot.frontRight.setTargetPosition(-targetPos);
+            robot.backRight.setTargetPosition(- targetPos);
 
             robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);

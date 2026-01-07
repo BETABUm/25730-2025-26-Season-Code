@@ -50,17 +50,17 @@ public class ShooterSystem {
         if((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)){
             indexSystem.runServos(servoThreePower, servoTwoPower, lowServoPowerL, lowServoPowerR);
 
-            if(Math.min(limitSwitch4.get_value(),3) == 3 && Math.min(limitSwitch.get_value(),3) == 3){
+            if(Math.min(limitSwitch4.get_value(),3) == 3){
                 indexSystem.stopServos();
                 limitSwitchReset.resetLimitSwitches();
             }
 
-            if(Math.min(limitSwitch.get_value(),2) == 2 && Math.min(limitSwitch4.get_value(),2) == 2){
+            if(Math.min(limitSwitch.get_value(),2) == 2){
                 indexSystem.stopServos();
                 limitSwitchReset.resetLimitSwitches();
             }
 
-            if(Math.min(limitSwitch.get_value(),1) == 1 && Math.min(limitSwitch4.get_value(),1) == 1){
+            if(Math.min(limitSwitch.get_value(),1) == 1){
                 indexSystem.stopServos();
                 limitSwitchReset.resetLimitSwitches();
             }

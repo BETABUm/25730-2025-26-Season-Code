@@ -58,12 +58,12 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
         robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         waitForStart();
+        if(opModeIsActive()) {
+            driveTrainSystemAuto.Drive(-100, -100, -100, -100, 5);
+        }
 
-        while (opModeIsActive()) {
-
-            shooterSystemAuto.shootBallAuto(750, 750, 10, 10, 1, 1, 1, 1);
-            driveTrainSystemAuto.Drive(1000,1000,1000,1000,5);
-
+         while(opModeIsActive()){
+            //empty
         }
     }
 }
