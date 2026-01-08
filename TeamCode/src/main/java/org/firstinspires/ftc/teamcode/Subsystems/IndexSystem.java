@@ -72,6 +72,7 @@ public class IndexSystem {
                         robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         state = IndexStatesThreeBalls.THIRDSERVOSTOP;
                     }
+                    break;
 
                 case THIRDSERVOSTOP:
 
@@ -83,6 +84,8 @@ public class IndexSystem {
                         state = IndexStatesThreeBalls.SECONDSERVOSTOP;
                     }
 
+                    break;
+
                 case SECONDSERVOSTOP:
 
                     servoTwo.stop();
@@ -91,11 +94,11 @@ public class IndexSystem {
                     if(Math.min(limitSwitch.get_value(),3) == 3){
                         state = IndexStatesThreeBalls.LOWSERVOINTAKESTOP;
                     }
+                    break;
 
                 case LOWSERVOINTAKESTOP:
-
-                    lowServo.stop();
                     intake.stop();
+                    stopServos();
                     break;
 
             }

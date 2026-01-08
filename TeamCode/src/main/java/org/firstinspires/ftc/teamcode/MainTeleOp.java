@@ -128,7 +128,7 @@ public class MainTeleOp extends OpMode{
         }
 
         if(gamepad1.left_trigger >= .69) {
-            shooterSystem.shootBall(750, 750, 10, 10, 1, 1, 1,1);
+            shooterSystem.shootBall(750, 750, 20, 20, 1, 1, 1,1);
         }
 
         if(gamepad1.dpad_left){
@@ -169,6 +169,10 @@ public class MainTeleOp extends OpMode{
 
         //print functions
         telemetry.addData("Revs on Intake", intake.get_encoder());
+        telemetry.addData("frontleft",robot.frontLeft.getCurrentPosition());
+        telemetry.addData("backleft",robot.backLeft.getCurrentPosition());
+        telemetry.addData("frontRght",robot.frontRight.getCurrentPosition());
+        telemetry.addData("frontRght",robot.backRight.getCurrentPosition());
         telemetry.addData("limitSwitch number of times", limitSwitch.get_value());
         telemetry.addData("limit switch 2 number of times", limitSwitch2.get_value());
         telemetry.addData("limit switch 3 number of times", limitSwitch3.get_value());
