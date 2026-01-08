@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 public class RobotMap {
 
+    //maps all motors, servos, switches, all devices that we access throughout the code
     public DcMotorEx intake;
     public DcMotorEx frontLeft;
     public DcMotorEx frontRight;
@@ -30,6 +31,7 @@ public class RobotMap {
 
 
     public void init(HardwareMap robot) {
+        //gets the name of the device from our tablet and configures it
         intake = robot.get(DcMotorEx.class, "intake");
         frontLeft = robot.get(DcMotorEx.class, "frontLeft");
         frontRight = robot.get(DcMotorEx.class, "frontRight");

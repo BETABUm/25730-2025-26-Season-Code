@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.IndexSystem;
 import org.firstinspires.ftc.teamcode.Subsystems.ShooterSystem;
 
 
-@TeleOp
+@TeleOp(name = "25730 TeleOp")
 public class MainTeleOp extends OpMode{
 
     RobotMap robot = new RobotMap();
@@ -35,7 +35,7 @@ public class MainTeleOp extends OpMode{
     IndexSystem indexSystem;
     ShooterSystem shooterSystem;
 
-    // Initialization code (still understanding)
+    // Initialization code for all files
     @Override
     public void init(){
        robot.init(hardwareMap);
@@ -58,7 +58,6 @@ public class MainTeleOp extends OpMode{
        robot.frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
        robot.backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
        robot.backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
     }
 
     // Main code and functions go here
@@ -116,8 +115,10 @@ public class MainTeleOp extends OpMode{
             shooter.stop();
         }
 
+        //mecanum drivetrain
         driveTrainSystem.Drive(-gamepad1.right_stick_x,  gamepad1.left_stick_y, -gamepad1.left_stick_x, gamepad1.right_bumper, gamepad1.left_bumper);
 
+        //print functions
         telemetry.addData("Revs on Intake", intake.get_encoder());
         telemetry.addData("limitSwitch number of times", limitSwitch.get_value());
         telemetry.addData("limit switch 2 number of times", limitSwitch2.get_value());
