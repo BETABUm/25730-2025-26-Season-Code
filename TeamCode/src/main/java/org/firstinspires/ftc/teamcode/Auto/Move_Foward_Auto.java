@@ -18,8 +18,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainSystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IndexSystem;
 import org.firstinspires.ftc.teamcode.Subsystems.ShooterSystem;
 
-@Autonomous(name = "Three Piece + Move", preselectTeleOp = "MainTeleOp")
-public class Three_Piece_Move_Auto extends LinearOpMode {
+@Autonomous(name = "Move 4 inches", preselectTeleOp = "MainTeleOp")
+public class Move_Foward_Auto extends LinearOpMode {
 
     // still understanding this
     RobotMap robot = new RobotMap();
@@ -59,24 +59,15 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
         robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         waitForStart();
         if(opModeIsActive()) {
-            shooterSystemAuto.shootBallAuto(750,750,10,10,1,1,1,1);
-            while(opModeIsActive() && robot.shooterFront.isBusy() && robot.shooterBack.isBusy()){
-
-            }
             //everything must be inverted BUT backleft
-            //this drives backward
-            driveTrainSystemAuto.Drive(1, -1, 1, 1, 5);
+            //drives foward
+            driveTrainSystemAuto.Drive(-1, 1, -1, -1, 4);
         }
 
-         while(opModeIsActive()){
-             if (shooter.check_position()) {
-                 shooter.stop();
-             }
-
-             if(driveTrainSystemAuto.check_position()){
-                 driveTrainSystemAuto.stop();
-             }
-
+        while(opModeIsActive()){
+            if(driveTrainSystemAuto.check_position()){
+                driveTrainSystemAuto.stop();
+            }
         }
     }
 }

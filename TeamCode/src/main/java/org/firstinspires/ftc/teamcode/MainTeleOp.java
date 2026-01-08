@@ -21,7 +21,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.ShooterSystem;
 @TeleOp
 public class MainTeleOp extends OpMode{
 
-    // still understanding this
     RobotMap robot = new RobotMap();
     Intake intake;
     Shooter shooter;
@@ -54,10 +53,11 @@ public class MainTeleOp extends OpMode{
        shooterSystem = new ShooterSystem(robot);
        robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
        robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+       robot.frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       robot.frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       robot.backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       robot.backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
@@ -65,11 +65,12 @@ public class MainTeleOp extends OpMode{
     // Last year we didn't do this, but it's good to have buttons in one file
     @Override
     public void loop(){
-        // a button, a boolean value
+        // all buttons like a,b,x,y, etc are all booleans
         if (gamepad1.right_trigger >= .69){
              indexSystem.intakeBall(-1, 1, 1, 1, 1);
         }
 
+        // right trigger is like a stick with values from 0 to 1, same with left trigger
         if(gamepad1.right_trigger < .69){
             indexSystem.state = IndexSystem.IndexStatesThreeBalls.INTAKEON;
         }
@@ -105,11 +106,13 @@ public class MainTeleOp extends OpMode{
             lowIndex.setPower(1,1);
         }
 
+        //stops intake once it gets to target pos
         if ((robot.intake.getCurrentPosition() <= robot.intake.getTargetPosition() + 100) && (robot.intake.getCurrentPosition() > robot.intake.getTargetPosition()-100)) {
             intake.stop();
         }
 
-        if ((robot.shooterBack.getCurrentPosition() <= robot.shooterBack.getTargetPosition() + 100) && (robot.shooterBack.getCurrentPosition() > robot.shooterBack.getTargetPosition()-100)) {
+        //stops shooter once it reaches target pos
+        if (shooter.check_position()) {
             shooter.stop();
         }
 

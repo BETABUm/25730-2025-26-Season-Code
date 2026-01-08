@@ -46,4 +46,24 @@ public class DriveTrainSystemAuto {
             robot.backRight.setPower(powerBR);
 
         }
+
+        public boolean check_position(){
+            return (robot.backLeft.getCurrentPosition() <= robot.backLeft.getTargetPosition() + 100)
+                    && (robot.backLeft.getCurrentPosition() > robot.backLeft.getTargetPosition() - 100)
+
+                    && (robot.frontLeft.getCurrentPosition() <= robot.frontLeft.getTargetPosition() + 100)
+                    && (robot.frontLeft.getCurrentPosition() <= robot.frontLeft.getTargetPosition() + 100)
+
+                    && (robot.backRight.getCurrentPosition() <= robot.backRight.getTargetPosition() + 100)
+                    && (robot.backRight.getCurrentPosition() <= robot.backRight.getTargetPosition() + 100)
+
+                    && (robot.frontRight.getCurrentPosition() <= robot.frontRight.getTargetPosition() + 100)
+                    && (robot.frontRight.getCurrentPosition() <= robot.frontRight.getTargetPosition() + 100);
+        }
+        public void stop(){
+            robot.frontLeft.setPower(0);
+            robot.backLeft.setPower(0);
+            robot.frontRight.setPower(0);
+            robot.backRight.setPower(0);
+        }
 }

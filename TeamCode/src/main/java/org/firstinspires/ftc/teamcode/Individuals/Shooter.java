@@ -104,8 +104,14 @@ public class Shooter {
     }
 
     public double get_velof() {
+
         return robot.shooterFront.getVelocity();
     }
+
+    public boolean check_position() {
+        return (robot.shooterBack.getCurrentPosition() <= robot.shooterBack.getTargetPosition() + 100) && (robot.shooterBack.getCurrentPosition() > robot.shooterBack.getTargetPosition() - 100);
+    }
+
 }
 
 
