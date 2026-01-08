@@ -40,38 +40,112 @@ public class IndexSystem {
         shooter = new Shooter(robot);
     }
 
+    public enum IndexStatesThreeBalls {
+
+        INTAKEON, THIRDSERVOSTOP, SECONDSERVOSTOP, LOWSERVOINTAKESTOP
+    }
+    public IndexStatesThreeBalls state = IndexStatesThreeBalls.INTAKEON;
+
+    /*
+    public enum IndexStatesTwoBalls{
+        INTAKEON, THIRDSERVOSTOP, SECONDSERVOLOWSERVOINTAKESTOP;
+    }
+
+    IndexStatesTwoBalls state2 = IndexStatesTwoBalls.INTAKEON;
+
+    public enum IndexStatesOneBall{
+        INTAKEON, THIRDSECONDSERVOLOWSERVOINTAKESTOP;
+    }
+
+    IndexStatesOneBall state3 = IndexStatesOneBall.INTAKEON;
+    */
+
     public void intakeBall (double intakePow, double lowServoRight, double lowServoLeft, double servoTwoPower, double servoThreePower){
 
-            intake.setPower(intakePow);
+            switch(state){
 
-            if (Math.min(limitSwitch.get_value(),1) == 1){
-                runServos(servoThreePower,servoTwoPower,lowServoLeft,lowServoRight);
-                robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                case INTAKEON:
+                    intake.setPower(intakePow);
+                    runServos(servoThreePower,servoTwoPower,lowServoLeft,lowServoRight);
+                    if(Math.min(limitSwitch3.get_value(),1) == 1){
+                        robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        state = IndexStatesThreeBalls.THIRDSERVOSTOP;
+                    }
+
+                case THIRDSERVOSTOP:
+
+                    servoThree.stop();
+                    intake.setPower(intakePow);
+                    lowServo.setPower(lowServoLeft,lowServoRight);
+                    servoTwo.setPower(servoTwoPower);
+                    if(Math.min(limitSwitch2.get_value(),2) == 2){
+                        state = IndexStatesThreeBalls.SECONDSERVOSTOP;
+                    }
+
+                case SECONDSERVOSTOP:
+
+                    servoTwo.stop();
+                    intake.setPower(intakePow);
+                    lowServo.setPower(lowServoLeft, lowServoRight);
+                    if(Math.min(limitSwitch.get_value(),3) == 3){
+                        state = IndexStatesThreeBalls.LOWSERVOINTAKESTOP;
+                    }
+
+                case LOWSERVOINTAKESTOP:
+
+                    lowServo.stop();
+                    intake.stop();
+                    break;
+
             }
 
-            if(Math.min(limitSwitch4.get_value(),1) == 1){
-                servoThree.stop();
+            /*
+            switch(state2){
+
+                case INTAKEON:
+                    intake.setPower(intakePow);
+                    runServos(servoThreePower,servoTwoPower,lowServoLeft,lowServoRight);
+                    if(Math.min(limitSwitch3.get_value(),1) == 1){
+                        robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        state2 = IndexStatesTwoBalls.THIRDSERVOSTOP;
+                    }
+
+                case THIRDSERVOSTOP:
+                    servoThree.stop();
+                    intake.setPower(intakePow);
+                    lowServo.setPower(lowServoLeft,lowServoRight);
+                    servoTwo.setPower(servoTwoPower);
+                    if(Math.min(limitSwitch2.get_value(),2) == 2){
+                        state2 = IndexStatesTwoBalls.SECONDSERVOLOWSERVOINTAKESTOP;
+                    }
+
+                case SECONDSERVOLOWSERVOINTAKESTOP:
+                    servoTwo.stop();
+                    lowServo.stop();
+                    intake.stop();
+                    break;
             }
 
-            if(Math.min(limitSwitch.get_value(),2) == 2){
-                lowServo.setPower(lowServoLeft, lowServoRight);
-                servoTwo.setPower(servoTwoPower);
-            }
+            switch(state3){
 
-            if(Math.min(limitSwitch3.get_value(),2) == 2){
-                servoTwo.stop();
-            }
+                case INTAKEON:
+                    intake.setPower(intakePow);
+                    runServos(servoThreePower,servoTwoPower,lowServoLeft,lowServoRight);
+                    if(Math.min(limitSwitch3.get_value(),1) == 1){
+                        robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        state3 = IndexStatesOneBall.THIRDSECONDSERVOLOWSERVOINTAKESTOP;
+                    }
 
-            if(Math.min(limitSwitch.get_value(),3) == 3){
-                lowServo.setPower(lowServoLeft, lowServoRight);
+                case THIRDSECONDSERVOLOWSERVOINTAKESTOP:
+                    stopServos();
+                    intake.stop();
+                    break;
             }
-
-            if(Math.min(limitSwitch2.get_value(),3) == 3){
-                lowServo.stop();
-            }
-
-        }
+            */
+    }
 
     public void runServos(double servoThreePower, double servoTwoPower, double lowServoPowerL, double lowServoPowerR){
         servoThree.setPower(servoThreePower);

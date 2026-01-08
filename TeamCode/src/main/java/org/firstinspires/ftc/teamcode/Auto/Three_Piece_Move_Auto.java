@@ -59,7 +59,13 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
         robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         waitForStart();
         if(opModeIsActive()) {
-            driveTrainSystemAuto.Drive(-100, -100, -100, -100, 5);
+            shooterSystemAuto.shootBallAuto(750,750,10,10,1,1,1,1);
+            while(opModeIsActive() && robot.shooterFront.isBusy() && robot.shooterBack.isBusy()){
+
+            }
+            //everything must be inverted BUT backleft
+            //this drives backward
+            driveTrainSystemAuto.Drive(1, -1, 1, 1, 5);
         }
 
          while(opModeIsActive()){

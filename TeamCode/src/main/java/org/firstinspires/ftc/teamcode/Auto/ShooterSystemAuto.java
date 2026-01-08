@@ -48,7 +48,7 @@ public class ShooterSystemAuto {
             if((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)){
                 indexSystem.runServos(servoThreePower, servoTwoPower, lowServoPowerL, lowServoPowerR);
 
-                if(Math.min(limitSwitch4.get_value(),3) == 3){
+                if(!robot.shooterBack.isBusy() && !robot.shooterFront.isBusy()){
                     indexSystem.stopServos();
                     limitSwitchReset.resetLimitSwitches();
                 }

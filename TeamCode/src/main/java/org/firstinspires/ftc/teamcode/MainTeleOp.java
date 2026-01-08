@@ -70,12 +70,16 @@ public class MainTeleOp extends OpMode{
              indexSystem.intakeBall(-1, 1, 1, 1, 1);
         }
 
+        if(gamepad1.right_trigger < .69){
+            indexSystem.state = IndexSystem.IndexStatesThreeBalls.INTAKEON;
+        }
+
         if (gamepad1.b){
             indexSystem.stopAll();
         }
 
         if(gamepad1.left_trigger >= .69) {
-            shooterSystem.shootBall(750, 750, 20, 20, 1, 1, 1,1);
+            shooterSystem.shootBall(750, 750, 10, 10, 1, 1, 1,1);
         }
 
         if(gamepad1.dpad_left){

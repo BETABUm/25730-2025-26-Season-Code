@@ -21,8 +21,6 @@ public class DriveTrainSystem {
 
     }
 
-    //orientation of IMU (gyro) in control hub for field orientated drive
-    RevHubOrientationOnRobot revOrientation = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
 
     // drivetrain math from last year
     public void Drive (double right_stick_x, double left_stick_y, double left_stick_x, boolean right_bumper, boolean left_bumper) {

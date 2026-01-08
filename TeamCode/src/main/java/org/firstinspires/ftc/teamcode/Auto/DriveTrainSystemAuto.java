@@ -18,7 +18,7 @@ public class DriveTrainSystemAuto {
         }
 
         // drivetrain math from last year
-        public void Drive(double velocityFL, double velocityBL, double velocityFR, double velocityBR, double inches) {
+        public void Drive(double powerFL, double powerBL, double powerFR, double powerBR, double inches) {
             robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -30,20 +30,20 @@ public class DriveTrainSystemAuto {
             double revs = inches/wheelCircumference;
             int targetPos = (int)(revs * ticksPerRev);
 
-            robot.frontLeft.setTargetPosition(-targetPos);
+            robot.frontLeft.setTargetPosition(targetPos);
             robot.backLeft.setTargetPosition(targetPos);
-            robot.frontRight.setTargetPosition(-targetPos);
-            robot.backRight.setTargetPosition(- targetPos);
+            robot.frontRight.setTargetPosition(targetPos);
+            robot.backRight.setTargetPosition(targetPos);
 
             robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            robot.frontLeft.setVelocity(velocityFL);
-            robot.backLeft.setVelocity(velocityBL);
-            robot.frontRight.setVelocity(velocityFR);
-            robot.backRight.setVelocity(velocityBR);
+            robot.frontLeft.setPower(powerFL);
+            robot.backLeft.setPower(powerBL);
+            robot.frontRight.setPower(powerFR);
+            robot.backRight.setPower(powerBR);
 
         }
 }

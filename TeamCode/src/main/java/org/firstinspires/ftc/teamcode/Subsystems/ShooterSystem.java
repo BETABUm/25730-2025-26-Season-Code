@@ -50,17 +50,7 @@ public class ShooterSystem {
         if((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)){
             indexSystem.runServos(servoThreePower, servoTwoPower, lowServoPowerL, lowServoPowerR);
 
-            if(Math.min(limitSwitch4.get_value(),3) == 3){
-                indexSystem.stopServos();
-                limitSwitchReset.resetLimitSwitches();
-            }
-
-            if(Math.min(limitSwitch.get_value(),2) == 2){
-                indexSystem.stopServos();
-                limitSwitchReset.resetLimitSwitches();
-            }
-
-            if(Math.min(limitSwitch.get_value(),1) == 1){
+            if(!robot.shooterBack.isBusy() && !robot.shooterFront.isBusy()){
                 indexSystem.stopServos();
                 limitSwitchReset.resetLimitSwitches();
             }
