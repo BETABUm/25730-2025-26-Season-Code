@@ -61,7 +61,7 @@ public class Move_Foward_Auto extends LinearOpMode {
         if(opModeIsActive()) {
             //everything must be inverted BUT backleft
             //drives foward
-            driveTrainSystemAuto.Drive(-1, 1, -1, -1, 4);
+            driveTrainSystemAuto.setDriveValues(-1, 1, -1, -1, 4);
         }
 
         while(opModeIsActive()){

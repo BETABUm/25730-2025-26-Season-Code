@@ -38,6 +38,7 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
     ShooterSystemAuto shooterSystemAuto;
     DriveTrainSystemAuto driveTrainSystemAuto;
 
+    int CASE = 0;
     public void runOpMode() {
 
         robot.init(hardwareMap);
@@ -55,28 +56,46 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
         shooterSystem = new ShooterSystem(robot);
         shooterSystemAuto = new ShooterSystemAuto(robot);
         driveTrainSystemAuto = new DriveTrainSystemAuto(robot);
+
         robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+
+
         waitForStart();
-        if(opModeIsActive()) {
-            shooterSystemAuto.shootBallAuto(750,750,10,10,1,1,1,1);
-            while(opModeIsActive() && robot.shooterFront.isBusy() && robot.shooterBack.isBusy()){
 
+        if (opModeIsActive()) {
+            while (opModeIsActive()) {
+                switch(CASE){
+                    case 0:
+                        shooterSystemAuto.state = ShooterSystemAuto.ShooterStates.SHOOTING;
+                        shooterSystemAuto.shootBallAuto(750,750,7,7,1,1,1,1);
+                        CASE++;
+                        break;
+                    case 1:
+                        if(shooterSystemAuto.state == ShooterSystemAuto.ShooterStates.DONESHOOTING){
+                            driveTrainSystemAuto.state = DriveTrainSystemAuto.DrivingStates.SETVALUES;
+                            CASE++;
+                        }
+                    case 2:
+                        driveTrainSystemAuto.setDriveValues(1,1,1,1,5);
+                        CASE++;
+                        break;
+                    case 3:
+                        driveTrainSystemAuto.checkDriving();
+                        if(driveTrainSystemAuto.state == DriveTrainSystemAuto.DrivingStates.DONEDRIVING){
+                            CASE++;
+                        }
+                    case 4:
+                        break;
+                }
             }
-            //everything must be inverted BUT backleft
-            //this drives backward
-            driveTrainSystemAuto.Drive(1, -1, 1, 1, 5);
-        }
-
-         while(opModeIsActive()){
-             if (shooter.check_position()) {
-                 shooter.stop();
-             }
-
-             if(driveTrainSystemAuto.check_position()){
-                 driveTrainSystemAuto.stop();
-             }
-
         }
     }
 }

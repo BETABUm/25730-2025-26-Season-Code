@@ -41,17 +41,32 @@ public class ShooterSystemAuto {
         limitSwitchReset = new LimitSwitchReset(robot);
     }
 
+    public enum ShooterStates {
+        SHOOTING, DONESHOOTING
+    }
+
+    public ShooterStates state = ShooterStates.SHOOTING;
+
+
         public void shootBallAuto(double velocityf, double velocityb, double revsf, double revsb, double lowServoPowerL, double lowServoPowerR, double servoTwoPower, double servoThreePower){
 
-            shooter.setVelocityRevs(velocityf,velocityb,revsf,revsb);
+            switch(state) {
+                case SHOOTING:
+                    shooter.setVelocityRevs(velocityf, velocityb, revsf, revsb);
 
-            if((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)){
-                indexSystem.runServos(servoThreePower, servoTwoPower, lowServoPowerL, lowServoPowerR);
+                    if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
+                        indexSystem.runServos(servoThreePower, servoTwoPower, lowServoPowerL, lowServoPowerR);
+                    }
 
-                if(!robot.shooterBack.isBusy() && !robot.shooterFront.isBusy()){
-                    indexSystem.stopServos();
-                    limitSwitchReset.resetLimitSwitches();
-                }
+                    if(shooter.check_position()){
+                        state = ShooterStates.DONESHOOTING;
+                    }
+                    break;
+
+                case DONESHOOTING:
+                        indexSystem.stopServos();
+                        limitSwitchReset.resetLimitSwitches();
+                    break;
             }
         }
     }
