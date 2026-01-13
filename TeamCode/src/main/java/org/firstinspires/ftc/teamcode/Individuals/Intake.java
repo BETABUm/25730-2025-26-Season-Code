@@ -60,10 +60,6 @@ public class Intake {
         return (robot.intake.getCurrentPosition());
     }
 
-    public boolean get_state(){
-        return robot.intake.isBusy();
-    }
-    // stops intake
     public void stop(){
 
         robot.intake.setPower(0);

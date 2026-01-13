@@ -12,15 +12,8 @@ public class DriveTrainSystemAuto {
 
         }
 
-        public enum DrivingStates{
-            SETVALUES, DRIVING, DONEDRIVING;
-
-        }
-
-        public DrivingStates state = DrivingStates.SETVALUES;
 
         public void setDriveValues(double powerFL, double powerBL, double powerFR, double powerBR, double inches) {
-            if (state == DrivingStates.SETVALUES) {
                 double wheelDiameter = 2.95276;
                 double wheelCircumference = wheelDiameter * Math.PI;
                 double ticksPerRev = robot.frontLeft.getMotorType().getTicksPerRev() * 20;
@@ -42,27 +35,17 @@ public class DriveTrainSystemAuto {
                 robot.frontRight.setPower(powerFR);
                 robot.backRight.setPower(powerBR);
 
-                state = DrivingStates.DRIVING;
-            }
         }
 
-        public void checkDriving() {
-            switch (state) {
-                case DRIVING:
-                if ((robot.backLeft.getCurrentPosition() <= robot.backLeft.getTargetPosition() + 100)
+        public boolean checkDriving() {
+                return ((robot.backLeft.getCurrentPosition() <= robot.backLeft.getTargetPosition() + 100)
                         && (robot.backLeft.getCurrentPosition() > robot.backLeft.getTargetPosition() - 100)
                         && (robot.frontLeft.getCurrentPosition() <= robot.frontLeft.getTargetPosition() + 100)
                         && (robot.frontLeft.getCurrentPosition() <= robot.frontLeft.getTargetPosition() + 100)
                         && (robot.backRight.getCurrentPosition() <= robot.backRight.getTargetPosition() + 100)
                         && (robot.backRight.getCurrentPosition() <= robot.backRight.getTargetPosition() + 100)
                         && (robot.frontRight.getCurrentPosition() <= robot.frontRight.getTargetPosition() + 100)
-                        && (robot.frontRight.getCurrentPosition() <= robot.frontRight.getTargetPosition() + 100)){
-                    state = DrivingStates.DONEDRIVING;
-                }
-
-                case DONEDRIVING:
-                    stop();
-            }
+                        && (robot.frontRight.getCurrentPosition() <= robot.frontRight.getTargetPosition() + 100));
         }
         public void stop(){
             robot.frontLeft.setPower(0);

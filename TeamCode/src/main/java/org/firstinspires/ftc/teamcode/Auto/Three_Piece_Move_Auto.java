@@ -8,9 +8,8 @@ import org.firstinspires.ftc.teamcode.Individuals.Intake;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch2;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch3;
-import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch4;
+import org.firstinspires.ftc.teamcode.Individuals.LimitSwitchReset;
 import org.firstinspires.ftc.teamcode.Individuals.LowServo;
-import org.firstinspires.ftc.teamcode.Individuals.Servo2;
 import org.firstinspires.ftc.teamcode.Individuals.Servo3;
 import org.firstinspires.ftc.teamcode.Individuals.Shooter;
 import org.firstinspires.ftc.teamcode.RobotMap;
@@ -30,15 +29,14 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
     LimitSwitch limitSwitch;
     LimitSwitch2 limitSwitch2;
     LimitSwitch3 limitSwitch3;
-    LimitSwitch4 limitSwitch4;
-    Servo2 servo2;
     Servo3 servo3;
     IndexSystem indexSystem;
     ShooterSystem shooterSystem;
     ShooterSystemAuto shooterSystemAuto;
     DriveTrainSystemAuto driveTrainSystemAuto;
+    LimitSwitchReset limitSwitchReset;
 
-    int CASE = 0;
+
     public void runOpMode() {
 
         robot.init(hardwareMap);
@@ -48,14 +46,13 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
         limitSwitch = new LimitSwitch(robot);
         limitSwitch2 = new LimitSwitch2(robot);
         limitSwitch3 = new LimitSwitch3(robot);
-        limitSwitch4 = new LimitSwitch4(robot);
         lowIndex = new LowServo(robot);
-        servo2 = new Servo2(robot);
         servo3 = new Servo3(robot);
         indexSystem = new IndexSystem(robot);
         shooterSystem = new ShooterSystem(robot);
         shooterSystemAuto = new ShooterSystemAuto(robot);
         driveTrainSystemAuto = new DriveTrainSystemAuto(robot);
+        limitSwitchReset = new LimitSwitchReset(robot);
 
         robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -66,36 +63,10 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
         robot.backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-
-
         waitForStart();
 
         if (opModeIsActive()) {
-            while (opModeIsActive()) {
-                switch(CASE){
-                    case 0:
-                        shooterSystemAuto.state = ShooterSystemAuto.ShooterStates.SHOOTING;
-                        shooterSystemAuto.shootBallAuto(750,750,7,7,1,1,1,1);
-                        CASE++;
-                        break;
-                    case 1:
-                        if(shooterSystemAuto.state == ShooterSystemAuto.ShooterStates.DONESHOOTING){
-                            driveTrainSystemAuto.state = DriveTrainSystemAuto.DrivingStates.SETVALUES;
-                            CASE++;
-                        }
-                    case 2:
-                        driveTrainSystemAuto.setDriveValues(1,1,1,1,5);
-                        CASE++;
-                        break;
-                    case 3:
-                        driveTrainSystemAuto.checkDriving();
-                        if(driveTrainSystemAuto.state == DriveTrainSystemAuto.DrivingStates.DONEDRIVING){
-                            CASE++;
-                        }
-                    case 4:
-                        break;
-                }
-            }
+
         }
     }
 }
