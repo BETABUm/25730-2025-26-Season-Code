@@ -26,7 +26,7 @@ public class ShooterSystem {
     private LimitSwitchReset limitSwitchReset;
     private HexIndexMotor hexIndexMotor;
     private Gamepad gamepad1;
-
+    private boolean shooting = false;
 
     //init and instances of other classes
     public ShooterSystem (RobotMap robot) {
@@ -44,23 +44,23 @@ public class ShooterSystem {
     }
 
     public enum SHOOTSTATES{
-        FIRSTBALL, CHECKSERVOS, SECONDBALL, CHECKSERVOS2, THIRDBALL, DONESHOOTING, DONEDONE;
+        VELO, FIRSTBALL, CHECKSERVOS, SECONDBALL, CHECKSERVOS2, THIRDBALL, DONESHOOTING, DONEDONE;
     }
 
-    public SHOOTSTATES state = SHOOTSTATES.FIRSTBALL;
+    public SHOOTSTATES state = SHOOTSTATES.VELO;
 
-    public void shootBall(double velocityf, double velocityb, double lowServoPowerL, double lowServoPowerR, double hexIndexPower, double servoThreePower, double left_trigger) {
-        boolean shooting = false;
-        if (left_trigger >= .69) {
-            if (!shooting) {
-                shooting = true;
-                state = SHOOTSTATES.FIRSTBALL;
-            }
+    public void shootBall(double velocityf, double velocityb, double lowServoPowerL, double lowServoPowerR, double hexIndexPower, double servoThreePower, boolean left_trigger) {
 
-            shooter.setVelo(velocityf, velocityb);
+        if (left_trigger && !shooting) {
+            shooting = true;
+        }
 
             if (shooting) {
                 switch (state) {
+                    case VELO:
+                        shooter.setVelo(velocityf, velocityb);
+                        state = SHOOTSTATES.FIRSTBALL;
+                        break;
                     case FIRSTBALL:
                         if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
                             servo3.setPower(servoThreePower);
@@ -103,13 +103,18 @@ public class ShooterSystem {
                         if (Math.min(limitSwitch3.get_value(), 1) == 1) {
                             indexSystem.stopServos();
                             shooter.stop();
+                            state = SHOOTSTATES.DONEDONE;
                         }
+                        break;
+
+                    case DONEDONE:
+                        shooting = false;
                         break;
                 }
                 //checks that our shooter is at the velocity we want it to be at
             }
         }
-    }
+
     //stops all things related to our shooter
     public void stop(){
         shooter.stop();

@@ -81,7 +81,7 @@ public class MainTeleOp extends OpMode{
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⢸⣿⣿⠀⠀⠈⣷⡀⠀⠈⢿⣿⠀⠀⢸⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⡇⠀⠐⣷⠀⠀⢸⣿⠃⠀⢰⡇⠀⠀⢸⣿⣿⣿⡿⠀⠀⢠⣿⣿⡄⠀⠀⢿⣿⣿⣿⣿⣿⣿⠁⠠⠰⢰⡟⠀⠀⠀⠀⠀⠀⢊⠖⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⢸⣿⣿⠀⠀⠀⣿⣷⡄⠀⠀⢻⡄⠀⢸⣿⣿⣿⠀⠀⢰⣶⣶⣶⣶⣶⣶⣶⣿⣿⣿⡅⠀⠀⣿⣇⠀⠀⣿⠀⠁⣼⡇⠀⠀⢸⣿⣿⡿⠁⠀⠀⠛⠛⠛⠻⠀⠀⢨⢿⣿⣿⣿⣿⣿⣧⠀⠉⢼⡇⠀⠀⠀⠀⠀⠀⢬⣹⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⠀⠈⢿⣿⣿⣿⣿⠟⠀⠀⢉⣿⣿⡇⠀⠀⢸⣿⣿⠀⠀⠀⣿⣿⣿⣄⠀⠀⠀⠀⢸⣿⣿⣿⠀⠀⢸⣯⣽⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⣿⣿⠀⠀⠀⠀⢀⣿⡇⠀⠀⢸⣿⣿⠇⠀⢰⣀⣠⣀⣀⣀⣀⠀⠀⠘⣿⣿⣿⣿⣿⣿⡇⠨⢼⡇⠀⠀⠀⠀⠀⢣⢚⣼⣿⣿⣿
-⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠉⠙⠋⠁⠀⠀⣠⣾⣿⣿⡇⠀⠀⢸⣿⣿⠀⠀⠀⣿⣿⣿⣿⣦⠀⠀⠀⢠⣟⣿⣽⠀⠀⠈⠉⠉⠉⠉⠉⠉⠉⠉⣿⣿⠇⠀⠀⣿⣿⡇⠀⠀⠀⣾⣿⡇⠀⠀⢸⣿⠏⠀⠀⢸⣿⣿⣿⣿⣿⣿⡆⠀⠀⠹⣿⣿⣿⣿⣿⡇⡘⣼⡇⠀⠀⢀⠀⢀⢣⢫⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷  ⣄⠀⠀⠉⠙⠋⠁⠀⠀⣠⣾⣿⣿⡇⠀⠀⢸⣿⣿⠀⠀⠀⣿⣿⣿⣿⣦⠀⠀⠀⢠⣟⣿⣽⠀⠀⠈⠉⠉⠉⠉⠉⠉⠉⠉⣿⣿⠇⠀⠀⣿⣿⡇⠀⠀⠀⣾⣿⡇⠀⠀⢸⣿⠏⠀⠀⢸⣿⣿⣿⣿⣿⣿⡆⠀⠀⠹⣿⣿⣿⣿⣿⡇⡘⣼⡇⠀⠀⢀⠀⢀⢣⢫⣿⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⣤⣀⣤⣶⣾⣿⣿⣿⣿⣧⣤⣤⣼⣿⣿⣤⣤⣤⣿⣿⣿⣿⣿⣷⣦⣤⣼⣿⣿⣿⣤⣤⣤⣤⣤⣦⣤⣤⣤⣤⣤⣿⣿⣦⣤⣤⣿⣿⣿⣤⣤⣴⣿⣿⣧⣤⣤⣼⣿⣤⣤⣤⣿⣿⣿⣿⣿⣿⣿⣿⣦⣤⣤⣽⣿⣿⣿⣿⡇⡜⢼⡇⠀⠀⡌⣇⠈⡇⡷⣿⣿⣿⣿
 */
 
@@ -125,7 +125,7 @@ public class MainTeleOp extends OpMode{
             indexSystem.state = IndexSystem.IndexStatesThreeBalls.INTAKEON;
         }
 
-        shooterSystem.shootBall(800, 800, 1,1,1,1, gamepad1.left_trigger);
+        shooterSystem.shootBall(800, 800, 1,1,1,1, gamepad1.a);
 
 
         if (gamepad1.b){
@@ -148,6 +148,7 @@ public class MainTeleOp extends OpMode{
         //print functions
         telemetry.addData("front shooter velocity", robot.shooterFront.getVelocity());
         telemetry.addData("back shooter velocity", robot.shooterBack.getVelocity());
+        telemetry.addData("shooterstate", ShooterSystem.SHOOTSTATES.values());
         telemetry.update();
 
     }
