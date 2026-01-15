@@ -143,6 +143,8 @@ public class MainTeleOp extends OpMode{
         driveTrainSystem.Drive(-gamepad1.right_stick_x,  gamepad1.left_stick_y, -gamepad1.left_stick_x, gamepad1.right_bumper, gamepad1.left_bumper);
 
         //print functions
+        telemetry.addData("front shooter velocity", robot.shooterFront.getVelocity());
+        telemetry.addData("back shooter velocity", robot.shooterBack.getVelocity());
         telemetry.update();
 
     }

@@ -40,23 +40,63 @@ public class ShooterSystem {
     }
 
     public enum SHOOTSTATES{
-        FIRSTBALL, SECONDBALL, THIRDBALL, DONESHOOTING, DONEDONE;
+        FIRSTBALL, CHECKSERVOS, SECONDBALL, CHECKSERVOS2, THIRDBALL, DONESHOOTING, DONEDONE;
     }
 
     public SHOOTSTATES state = SHOOTSTATES.FIRSTBALL;
 
-    public void shootBall(double velocityf, double velocityb, double revsf, double revsb, double lowServoPowerL, double lowServoPowerR, double hexIndexPower, double servoThreePower) {
+    public void shootBall(double velocityf, double velocityb, double lowServoPowerL, double lowServoPowerR, double hexIndexPower, double servoThreePower) {
 
         //sets velocity and revolutions for our shooter
-        shooter.setVelocityRevs(velocityf, velocityb, revsf, revsb);
+        shooter.setVelo(velocityf, velocityb);
 
-        //checks that our shooter is at the velocity we want it to be at
-        if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
-            //once we are at the right velocity we move our servos to shoot balls
-            indexSystem.runServos(servoThreePower, hexIndexPower, lowServoPowerL, lowServoPowerR);
+        switch(state){
+            case FIRSTBALL:
+                if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
+                    servo3.setPower(servoThreePower);
+                    hexIndexMotor.setPower(hexIndexPower);
+                    lowServo.setPower(lowServoPowerL,lowServoPowerR);
+                    state = SHOOTSTATES.CHECKSERVOS;
+                }
+            break;
 
+            case CHECKSERVOS:
+                if(Math.min(limitSwitch3.get_value(), 1) == 1 && Math.min(limitSwitch2.get_value(), 1) == 1){
+                    indexSystem.stopServos();
+                    state = SHOOTSTATES.SECONDBALL;
+                }
+            break;
+
+            case SECONDBALL:
+                if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
+                    servo3.setPower(servoThreePower);
+                    hexIndexMotor.setPower(hexIndexPower);
+                    state = SHOOTSTATES.CHECKSERVOS2;
+                }
+            break;
+
+            case CHECKSERVOS2:
+                if(Math.min(limitSwitch3.get_value(), 1) == 1){
+                    indexSystem.stopServos();
+                    state = SHOOTSTATES.THIRDBALL;
+                }
+            break;
+
+            case THIRDBALL:
+                if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
+                    servo3.setPower(servoThreePower);
+                    state = SHOOTSTATES.DONESHOOTING;
+                }
+            break;
+
+            case DONESHOOTING:
+                if(Math.min(limitSwitch3.get_value(), 1) == 1){
+                    indexSystem.stopServos();
+                    shooter.stop();
+                }
+            break;
         }
-
+        //checks that our shooter is at the velocity we want it to be at
     }
     //stops all things related to our shooter
     public void stop(){

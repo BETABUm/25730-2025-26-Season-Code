@@ -75,6 +75,14 @@ public class Shooter {
 
     }
 
+    public void setVelo(double velocityf, double velocityb){
+        robot.shooterBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.shooterFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robot.shooterBack.setVelocity(velocityb);
+        robot.shooterFront.setVelocity(velocityf);
+    }
+
     // stops
     public void stop() {
         robot.shooterBack.setVelocity(0);
