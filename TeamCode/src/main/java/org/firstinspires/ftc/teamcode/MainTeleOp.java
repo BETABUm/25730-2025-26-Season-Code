@@ -125,6 +125,9 @@ public class MainTeleOp extends OpMode{
             indexSystem.state = IndexSystem.IndexStatesThreeBalls.INTAKEON;
         }
 
+        shooterSystem.shootBall(800, 800, 1,1,1,1, gamepad1.left_trigger);
+
+
         if (gamepad1.b){
             indexSystem.stopAll();
         }
