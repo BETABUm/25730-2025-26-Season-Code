@@ -13,7 +13,7 @@ public class LowServo {
 
     public void setPower(double powerLeft, double powerRight){
         robot.leftindex1.setPower(powerLeft);
-        robot.rightindex1.setPower(powerRight);
+        robot.rightindex1.setPower(-powerRight);
     }
 
     public void stop(){

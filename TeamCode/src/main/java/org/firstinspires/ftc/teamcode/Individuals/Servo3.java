@@ -13,8 +13,7 @@ public class Servo3 {
     }
 
     public void setPower(double power){
-        robot.index3.setPower(power);
-        robot.index3.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.index3.setPower(-power);
     }
 
     public void stop(){
