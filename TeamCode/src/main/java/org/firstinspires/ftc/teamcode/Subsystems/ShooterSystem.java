@@ -73,7 +73,7 @@ public class ShooterSystem {
                         break;
 
                     case CHECKSERVOS:
-                        if (Math.min(limitSwitch3.get_value(), 1) == 1 && Math.min(limitSwitch2.get_value(), 1) == 1) {
+                        if (Math.min(limitSwitch3.get_value(), 2) == 2 && Math.min(limitSwitch2.get_value(), 3) == 3) {
                             indexSystem.stopServos();
                             state = SHOOTSTATES.SECONDBALL;
                         }
@@ -88,7 +88,7 @@ public class ShooterSystem {
                         break;
 
                     case CHECKSERVOS2:
-                        if (Math.min(limitSwitch3.get_value(), 1) == 1) {
+                        if (Math.min(limitSwitch3.get_value(), 3) == 3) {
                             indexSystem.stopServos();
                             state = SHOOTSTATES.THIRDBALL;
                         }
@@ -102,7 +102,7 @@ public class ShooterSystem {
                         break;
 
                     case DONESHOOTING:
-                        if (Math.min(limitSwitch3.get_value(), 1) == 1) {
+                        if (Math.min(limitSwitch3.get_value(), 3) == 3) {
                             stop();
                             state = SHOOTSTATES.DONEDONE;
                         }
