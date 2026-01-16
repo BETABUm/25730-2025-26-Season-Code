@@ -65,7 +65,7 @@ public class ShooterSystem {
                         break;
                     case FIRSTBALL:
                         if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
-                            servo3.setPower(servoThreePower);
+                            servo3.setPower(-servoThreePower);
                             hexIndexMotor.setPower(hexIndexPower);
                             lowServo.setPower(lowServoPowerL, lowServoPowerR);
                             state = SHOOTSTATES.CHECKSERVOS;
@@ -81,7 +81,7 @@ public class ShooterSystem {
 
                     case SECONDBALL:
                         if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
-                            servo3.setPower(servoThreePower);
+                            servo3.setPower(-servoThreePower);
                             hexIndexMotor.setPower(hexIndexPower);
                             state = SHOOTSTATES.CHECKSERVOS2;
                         }
@@ -96,7 +96,7 @@ public class ShooterSystem {
 
                     case THIRDBALL:
                         if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
-                            servo3.setPower(servoThreePower);
+                            servo3.setPower(-servoThreePower);
                             state = SHOOTSTATES.DONESHOOTING;
                         }
                         break;
