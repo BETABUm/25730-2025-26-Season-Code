@@ -72,7 +72,7 @@ public class ShooterSystem {
                         break;
 
                     case FIRSTBALL:
-                            servo3.setPower(-servoThreePower);
+                            servo3.setPower(servoThreePower);
                             if ((now - stateStartTime >= 1000) && (shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
                                 state = SHOOTSTATES.SECONDBALL;
                                 stateStartTime = now;
