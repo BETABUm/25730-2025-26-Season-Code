@@ -53,7 +53,6 @@ public class ShooterSystem {
 
         if (left_trigger>=.69){
             shooting = true;
-            limitSwitchReset.resetLimitSwitches();
         } else {
             shooting = false;
         }
@@ -63,6 +62,7 @@ public class ShooterSystem {
                     case VELO:
                         shooter.setVelo(velocityf, velocityb);
                         state = SHOOTSTATES.FIRSTBALL;
+                        limitSwitchReset.resetLimitSwitches();
                         break;
 
                     case FIRSTBALL:
