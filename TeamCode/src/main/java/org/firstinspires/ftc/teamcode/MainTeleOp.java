@@ -125,23 +125,11 @@ public class MainTeleOp extends OpMode{
             indexSystem.state = IndexSystem.IndexStatesThreeBalls.INTAKEON;
         }
 
-        shooterSystem.shootBall(800, 800, 1,1,1,1, gamepad1.a);
-
+        shooterSystem.shootBall(800, 800, 1,1,1,1, gamepad1.left_trigger);
 
         if (gamepad1.b){
             indexSystem.stopAll();
         }
-
-        //stops intake once it gets to target pos
-        if ((robot.intake.getCurrentPosition() <= robot.intake.getTargetPosition() + 100) && (robot.intake.getCurrentPosition() > robot.intake.getTargetPosition()-100)) {
-            intake.stop();
-        }
-
-        //stops shooter once it reaches target pos
-        if (shooter.check_position()) {
-            shooter.stop();
-        }
-
         //mecanum drivetrain
         driveTrainSystem.Drive(-gamepad1.right_stick_x,  gamepad1.left_stick_y, -gamepad1.left_stick_x, gamepad1.right_bumper, gamepad1.left_bumper);
 

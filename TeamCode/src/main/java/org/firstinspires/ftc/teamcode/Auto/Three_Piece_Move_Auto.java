@@ -66,6 +66,15 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
+            //stops intake once it gets to target pos
+            if ((robot.intake.getCurrentPosition() <= robot.intake.getTargetPosition() + 100) && (robot.intake.getCurrentPosition() > robot.intake.getTargetPosition()-100)) {
+                intake.stop();
+            }
+
+            //stops shooter once it reaches target pos
+            if (shooter.check_position()) {
+                shooter.stop();
+            }
 
         }
     }

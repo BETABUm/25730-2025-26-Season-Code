@@ -49,10 +49,12 @@ public class ShooterSystem {
 
     public SHOOTSTATES state = SHOOTSTATES.VELO;
 
-    public void shootBall(double velocityf, double velocityb, double lowServoPowerL, double lowServoPowerR, double hexIndexPower, double servoThreePower, boolean left_trigger) {
+    public void shootBall(double velocityf, double velocityb, double lowServoPowerL, double lowServoPowerR, double hexIndexPower, double servoThreePower, double left_trigger) {
 
-        if (left_trigger && !shooting) {
+        if (left_trigger>=.69){
             shooting = true;
+        } else {
+            shooting = false;
         }
 
             if (shooting) {
@@ -101,19 +103,18 @@ public class ShooterSystem {
 
                     case DONESHOOTING:
                         if (Math.min(limitSwitch3.get_value(), 1) == 1) {
-                            indexSystem.stopServos();
-                            shooter.stop();
+                            stop();
                             state = SHOOTSTATES.DONEDONE;
                         }
                         break;
 
                     case DONEDONE:
                         shooting = false;
+                        state = SHOOTSTATES.VELO;
                         break;
                 }
-                //checks that our shooter is at the velocity we want it to be at
             }
-        }
+    }
 
     //stops all things related to our shooter
     public void stop(){
