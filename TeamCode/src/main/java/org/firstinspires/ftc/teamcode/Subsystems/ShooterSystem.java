@@ -53,6 +53,7 @@ public class ShooterSystem {
 
         if (left_trigger>=.69){
             shooting = true;
+            limitSwitchReset.resetLimitSwitches();
         } else {
             shooting = false;
         }
@@ -63,6 +64,7 @@ public class ShooterSystem {
                         shooter.setVelo(velocityf, velocityb);
                         state = SHOOTSTATES.FIRSTBALL;
                         break;
+
                     case FIRSTBALL:
                         if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
                             servo3.setPower(-servoThreePower);
@@ -73,7 +75,7 @@ public class ShooterSystem {
                         break;
 
                     case CHECKSERVOS:
-                        if (Math.min(limitSwitch3.get_value(), 2) == 2 && Math.min(limitSwitch2.get_value(), 3) == 3) {
+                        if (Math.min(limitSwitch3.get_value(), 1) == 1 && Math.min(limitSwitch2.get_value(), 1) == 1) {
                             indexSystem.stopServos();
                             state = SHOOTSTATES.SECONDBALL;
                         }
@@ -88,7 +90,7 @@ public class ShooterSystem {
                         break;
 
                     case CHECKSERVOS2:
-                        if (Math.min(limitSwitch3.get_value(), 3) == 3) {
+                        if (Math.min(limitSwitch3.get_value(), 1) == 1) {
                             indexSystem.stopServos();
                             state = SHOOTSTATES.THIRDBALL;
                         }
@@ -102,7 +104,7 @@ public class ShooterSystem {
                         break;
 
                     case DONESHOOTING:
-                        if (Math.min(limitSwitch3.get_value(), 3) == 3) {
+                        if (Math.min(limitSwitch3.get_value(), 1) == 1) {
                             stop();
                             state = SHOOTSTATES.DONEDONE;
                         }
@@ -112,9 +114,10 @@ public class ShooterSystem {
                         shooting = false;
                         state = SHOOTSTATES.VELO;
                         break;
+
                 }
             }
-    }
+        }
 
     //stops all things related to our shooter
     public void stop(){
