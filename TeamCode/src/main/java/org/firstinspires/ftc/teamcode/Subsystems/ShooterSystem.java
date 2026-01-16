@@ -28,6 +28,8 @@ public class ShooterSystem {
     private Gamepad gamepad1;
     private boolean shooting = false;
 
+    private long stateStartTime = 0;
+
     //init and instances of other classes
     public ShooterSystem (RobotMap robot) {
         this.robot = robot;
@@ -58,61 +60,47 @@ public class ShooterSystem {
         }
 
             if (shooting) {
+                long now = System.currentTimeMillis();
+
                 switch (state) {
                     case VELO:
                         shooter.setVelo(velocityf, velocityb);
-                        state = SHOOTSTATES.FIRSTBALL;
-                        limitSwitchReset.resetLimitSwitches();
+                        if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
+                            state = SHOOTSTATES.FIRSTBALL;
+                            stateStartTime = now;
+                        }
                         break;
 
                     case FIRSTBALL:
-                        if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
                             servo3.setPower(-servoThreePower);
-                            hexIndexMotor.setPower(hexIndexPower);
-                            lowServo.setPower(lowServoPowerL, lowServoPowerR);
-                            state = SHOOTSTATES.CHECKSERVOS;
-                        }
-                        break;
-
-                    case CHECKSERVOS:
-                        if (Math.min(limitSwitch3.get_value(), 1) == 1 && Math.min(limitSwitch2.get_value(), 1) == 1) {
-                            indexSystem.stopServos();
-                            state = SHOOTSTATES.SECONDBALL;
-                        }
+                            if ((now - stateStartTime >= 1000) && (shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
+                                state = SHOOTSTATES.SECONDBALL;
+                                stateStartTime = now;
+                            }
                         break;
 
                     case SECONDBALL:
-                        if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
-                            servo3.setPower(-servoThreePower);
-                            hexIndexMotor.setPower(hexIndexPower);
-                            state = SHOOTSTATES.CHECKSERVOS2;
-                        }
-                        break;
-
-                    case CHECKSERVOS2:
-                        if (Math.min(limitSwitch3.get_value(), 1) == 1) {
-                            indexSystem.stopServos();
+                        hexIndexMotor.setPower(hexIndexPower);
+                        if ((now - stateStartTime >= 1000) && (shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
                             state = SHOOTSTATES.THIRDBALL;
+                            stateStartTime = now;
                         }
                         break;
 
                     case THIRDBALL:
-                        if ((shooter.get_velob() >= velocityb) && (shooter.get_velof() >= velocityf)) {
-                            servo3.setPower(-servoThreePower);
+                        lowServo.setPower(lowServoPowerL,lowServoPowerR);
+                        if ((now - stateStartTime >= 2000)) {
                             state = SHOOTSTATES.DONESHOOTING;
+                            stateStartTime = now;
                         }
                         break;
 
                     case DONESHOOTING:
-                        if (Math.min(limitSwitch3.get_value(), 1) == 1) {
-                            stop();
-                            state = SHOOTSTATES.DONEDONE;
+                        stop();
+                        if ((now - stateStartTime >= 2000)) {
+                            shooting = false;
+                            state = SHOOTSTATES.VELO;
                         }
-                        break;
-
-                    case DONEDONE:
-                        shooting = false;
-                        state = SHOOTSTATES.VELO;
                         break;
 
                 }
