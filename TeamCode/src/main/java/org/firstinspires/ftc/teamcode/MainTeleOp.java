@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Individuals.HexIndexMotor;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch2;
@@ -11,12 +12,15 @@ import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch3;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitchReset;
 import org.firstinspires.ftc.teamcode.Individuals.Servo3;
 import org.firstinspires.ftc.teamcode.Individuals.Intake;
+import org.firstinspires.ftc.teamcode.Individuals.Timer;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainSystem;
 import org.firstinspires.ftc.teamcode.Individuals.LowServo;
 import org.firstinspires.ftc.teamcode.Individuals.Shooter;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch;
 import org.firstinspires.ftc.teamcode.Subsystems.IndexSystem;
 import org.firstinspires.ftc.teamcode.Subsystems.ShooterSystem;
+import org.firstinspires.ftc.teamcode.Individuals.Timer;
+
 
 
 @TeleOp(name = "25730 TeleOp")
@@ -35,7 +39,7 @@ public class MainTeleOp extends OpMode{
     ShooterSystem shooterSystem;
     LimitSwitchReset limitSwitchReset;
     HexIndexMotor hexIndexMotor;
-    
+    Timer timer;
 /*
 ⣿⣿⣿⡇⠀⠀⣿⡄⠀⢘⣿⣿⣿⣿⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 ⡿⠿⣿⣧⠀⠀⢿⡇⠀⠈⢿⣿⣿⣿⡿⠁⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
@@ -89,6 +93,7 @@ public class MainTeleOp extends OpMode{
     @Override
     public void init(){
        robot.init(hardwareMap);
+       timer = new Timer(robot);
        intake = new Intake(robot);
        shooter = new Shooter(robot);
        driveTrainSystem = new DriveTrainSystem(robot);
@@ -109,12 +114,14 @@ public class MainTeleOp extends OpMode{
        robot.backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
        robot.backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
        limitSwitchReset.resetLimitSwitches();
+       timer.reset();
     }
 
     // Main code and functions go here
     // Last year we didn't do this, but it's good to have buttons in one file
     @Override
     public void loop(){
+
         // all buttons like a,b,x,y, etc are all booleans
         if (gamepad1.right_trigger >= .69){
             indexSystem.intakeBall(-1, 1, 1, 1, 1);
@@ -125,7 +132,7 @@ public class MainTeleOp extends OpMode{
             indexSystem.state = IndexSystem.IndexStatesThreeBalls.INTAKEON;
         }
 
-        shooterSystem.shootBall(800, 800, 1,1,1,1, gamepad1.left_trigger);
+        shooterSystem.shootBall(1000, 1000, 1,1,1,1, gamepad1.left_trigger);
 
         if (gamepad1.b){
             indexSystem.stopAll();
@@ -137,6 +144,7 @@ public class MainTeleOp extends OpMode{
         telemetry.addData("front shooter velocity", robot.shooterFront.getVelocity());
         telemetry.addData("back shooter velocity", robot.shooterBack.getVelocity());
         telemetry.addData("shooterstate", ShooterSystem.SHOOTSTATES.values());
+        telemetry.addData("timer", timer.timer());
         telemetry.update();
 
     }

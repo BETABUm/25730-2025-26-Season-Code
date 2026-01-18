@@ -1,16 +1,23 @@
 package org.firstinspires.ftc.teamcode.Individuals;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.PIDCoefficients;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.RobotMap;
 
 public class Shooter {
 
     private RobotMap robot;
+    private double P = 15 ;
+    private double F = 25;
+
 
     public Shooter(RobotMap robot) {
         this.robot = robot;
     }
+
+
 
     public void set_power(double power, double power1) {
         robot.shooterBack.setPower(power1);
@@ -76,8 +83,10 @@ public class Shooter {
     }
 
     public void setVelo(double velocityf, double velocityb){
-        robot.shooterBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.shooterFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+
+        robot.shooterFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        robot.shooterBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 
         robot.shooterBack.setVelocity(velocityb);
         robot.shooterFront.setVelocity(velocityf);

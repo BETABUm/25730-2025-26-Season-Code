@@ -37,8 +37,8 @@ public class RobotMap {
         backLeft = robot.get(DcMotorEx.class, "backLeft");
         backRight = robot.get(DcMotorEx.class, "backRight");
         imu = robot.get(IMU.class, "imu");
-        shooterBack = robot.get(DcMotorEx.class, "shooterFront");
-        shooterFront = robot.get(DcMotorEx.class, "shooterBack");
+        shooterBack = robot.get(DcMotorEx.class, "shooterBack");
+        shooterFront = robot.get(DcMotorEx.class, "shooterFront");
         limitSwitch = robot.get(DigitalChannel.class, "limitSwitch");
         limitSwitch2 = robot.get(DigitalChannel.class, "limitSwitch2");
         limitSwitch3 = robot.get(DigitalChannel.class, "limitSwitch3");
