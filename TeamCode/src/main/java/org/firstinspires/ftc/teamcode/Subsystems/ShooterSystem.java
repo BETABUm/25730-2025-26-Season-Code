@@ -54,7 +54,6 @@ public class ShooterSystem {
     }
 
     public SHOOTSTATES state = SHOOTSTATES.VELO;
-
     public void shootBall(double velocityf, double velocityb, double lowServoPowerL, double lowServoPowerR, double hexIndexPower, double servoThreePower, double left_trigger) {
 
         if (left_trigger>=.69){
@@ -68,23 +67,23 @@ public class ShooterSystem {
                     case VELO:
                         timer.reset();
                         shooter.setVelo(velocityf, velocityb);
-                        if ((Math.abs(shooter.get_velob() - velocityb) < 40) && ((Math.abs(shooter.get_velob() - velocityf) < 40))) {
+                        if ((Math.abs(shooter.get_velob() - velocityb) < 20) && ((Math.abs(shooter.get_velof() - velocityf) < 20))) {
+                            servo3.setPower(servoThreePower);
                             state = SHOOTSTATES.FIRSTBALL;
                             stateStartTime = timer.timer();
                         }
                         break;
 
                     case FIRSTBALL:
-                            servo3.setPower(servoThreePower);
-                            if ((timer.timer() - stateStartTime >= 2) && ((Math.abs(shooter.get_velob() - velocityb) < 40) && ((Math.abs(shooter.get_velob() - velocityf) < 40)))) {
-                                state = SHOOTSTATES.SECONDBALL;
-                                stateStartTime = timer.timer();
-                            }
+                        if ((timer.timer() - stateStartTime >= 2) && ((Math.abs(shooter.get_velob() - velocityb) < 30) && ((Math.abs(shooter.get_velof() - velocityf) < 30)))) {
+                            state = SHOOTSTATES.SECONDBALL;
+                            stateStartTime = timer.timer();
+                        }
                         break;
 
                     case SECONDBALL:
                         hexIndexMotor.setPower(hexIndexPower);
-                        if ((timer.timer() - stateStartTime >= 2) && ((Math.abs(shooter.get_velob() - velocityb) < 40) && ((Math.abs(shooter.get_velob() - velocityf) < 40)))) {
+                        if ((timer.timer() - stateStartTime >= .05) && ((Math.abs(shooter.get_velob() - velocityb) < 30) && ((Math.abs(shooter.get_velof() - velocityf) < 30)))) {
                             state = SHOOTSTATES.THIRDBALL;
                             stateStartTime = timer.timer();
                         }
@@ -92,14 +91,14 @@ public class ShooterSystem {
 
                     case THIRDBALL:
                         lowServo.setPower(lowServoPowerL,lowServoPowerR);
-                        if ((timer.timer() - stateStartTime >= 2)) {
+                        if ((timer.timer() - stateStartTime >= .02)) {
                             state = SHOOTSTATES.DONESHOOTING;
                             stateStartTime = timer.timer();
                         }
                         break;
 
                     case DONESHOOTING:
-                        if ((timer.timer() - stateStartTime >= 2)) {
+                        if ((timer.timer() - stateStartTime >= 5)) {
                             stop();
                             shooting = false;
                             state = SHOOTSTATES.VELO;

@@ -132,10 +132,17 @@ public class MainTeleOp extends OpMode{
             indexSystem.state = IndexSystem.IndexStatesThreeBalls.INTAKEON;
         }
 
-        shooterSystem.shootBall(1000, 1000, 1,1,1,1, gamepad1.left_trigger);
+        shooterSystem.shootBall(850, 850, 1,1,1,1, gamepad1.left_trigger);
 
+        if(gamepad1.left_trigger < .69){
+            shooterSystem.state = ShooterSystem.SHOOTSTATES.VELO;
+        }
         if (gamepad1.b){
             indexSystem.stopAll();
+        }
+
+        if(gamepad1.dpad_left){
+            shooterSystem.stop();
         }
         //mecanum drivetrain
         driveTrainSystem.Drive(-gamepad1.right_stick_x,  gamepad1.left_stick_y, -gamepad1.left_stick_x, gamepad1.right_bumper, gamepad1.left_bumper);
