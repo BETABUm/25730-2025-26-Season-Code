@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.RobotMap;
 public class Shooter {
 
     private RobotMap robot;
-    private double P = 130;
-    private double F = 23;
+    private double P = 40;
+    private double F = 12;
 
 
     public Shooter(RobotMap robot) {
@@ -83,6 +83,7 @@ public class Shooter {
     }
 
     public void setVelo(double velocityf, double velocityb){
+
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
 
         robot.shooterFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);

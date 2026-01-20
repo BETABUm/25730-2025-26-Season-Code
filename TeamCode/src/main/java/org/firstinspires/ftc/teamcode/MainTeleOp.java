@@ -94,25 +94,16 @@ public class MainTeleOp extends OpMode{
     public void init(){
        robot.init(hardwareMap);
        timer = new Timer(robot);
-       intake = new Intake(robot);
-       shooter = new Shooter(robot);
-       driveTrainSystem = new DriveTrainSystem(robot);
-       limitSwitch = new LimitSwitch(robot);
-       limitSwitch2 = new LimitSwitch2(robot);
-       limitSwitch3 = new LimitSwitch3(robot);
-       lowIndex = new LowServo(robot);
-       servo3 = new Servo3(robot);
-       indexSystem = new IndexSystem(robot);
-       shooterSystem = new ShooterSystem(robot);
        limitSwitchReset = new LimitSwitchReset(robot);
-       hexIndexMotor = new HexIndexMotor(robot);
-       robot.shooterBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       robot.shooterFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+       robot.shooterBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       robot.shooterFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
        robot.frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
        robot.frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
        robot.backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
        robot.backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
        limitSwitchReset.resetLimitSwitches();
        timer.reset();
     }
@@ -121,37 +112,18 @@ public class MainTeleOp extends OpMode{
     // Last year we didn't do this, but it's good to have buttons in one file
     @Override
     public void loop(){
-
-        // all buttons like a,b,x,y, etc are all booleans
-        if (gamepad1.right_trigger >= .69){
-            indexSystem.intakeBall(-1, 1, 1, 1, 1);
-        }
-
-        // right trigger is like a stick with values from 0 to 1, same with left trigger
-        if(gamepad1.right_trigger < .69){
-            indexSystem.state = IndexSystem.IndexStatesThreeBalls.INTAKEON;
-        }
-
         shooterSystem.shootBall(850, 850, 1,1,1,1, gamepad1.left_trigger);
 
         if(gamepad1.left_trigger < .69){
             shooterSystem.state = ShooterSystem.SHOOTSTATES.VELO;
         }
-        if (gamepad1.b){
-            indexSystem.stopAll();
-        }
 
         if(gamepad1.dpad_left){
             shooterSystem.stop();
         }
-        //mecanum drivetrain
-        driveTrainSystem.Drive(-gamepad1.right_stick_x,  gamepad1.left_stick_y, -gamepad1.left_stick_x, gamepad1.right_bumper, gamepad1.left_bumper);
-
         //print functions
         telemetry.addData("front shooter velocity", robot.shooterFront.getVelocity());
         telemetry.addData("back shooter velocity", robot.shooterBack.getVelocity());
-        telemetry.addData("shooterstate", ShooterSystem.SHOOTSTATES.values());
-        telemetry.addData("timer", timer.timer());
         telemetry.update();
 
     }
