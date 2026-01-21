@@ -31,7 +31,6 @@ public class RobotMap {
 
     public void init(HardwareMap robot) {
         //gets the name of the device from our tablet and configures it
-        /*
         intake = robot.get(DcMotorEx.class, "intake");
         frontLeft = robot.get(DcMotorEx.class, "frontLeft");
         frontRight = robot.get(DcMotorEx.class, "frontRight");
@@ -41,7 +40,6 @@ public class RobotMap {
         limitSwitch = robot.get(DigitalChannel.class, "limitSwitch");
         limitSwitch2 = robot.get(DigitalChannel.class, "limitSwitch2");
         limitSwitch3 = robot.get(DigitalChannel.class, "limitSwitch3");
-         */
         leftindex1 = robot.get(CRServo.class, "leftindex1");
         rightindex1 = robot.get(CRServo.class, "rightindex1");
         index3 = robot.get(CRServo.class, "index3");

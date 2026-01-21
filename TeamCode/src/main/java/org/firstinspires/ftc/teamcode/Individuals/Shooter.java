@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.RobotMap;
 public class Shooter {
 
     private RobotMap robot;
-    private double P = 40;
-    private double F = 12;
+    private double P = 70;
+    private double F = 20;
 
 
     public Shooter(RobotMap robot) {

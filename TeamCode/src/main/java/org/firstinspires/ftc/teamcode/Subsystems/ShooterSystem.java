@@ -75,7 +75,7 @@ public class ShooterSystem {
                         break;
 
                     case FIRSTBALL:
-                        if ((timer.timer() - stateStartTime >= 2) && ((Math.abs(shooter.get_velob() - velocityb) < 30) && ((Math.abs(shooter.get_velof() - velocityf) < 30)))) {
+                        if ((timer.timer() - stateStartTime >= 2.5) && ((Math.abs(shooter.get_velob() - velocityb) < 30) && ((Math.abs(shooter.get_velof() - velocityf) < 30)))) {
                             state = SHOOTSTATES.SECONDBALL;
                             stateStartTime = timer.timer();
                         }

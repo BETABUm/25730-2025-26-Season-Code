@@ -94,6 +94,7 @@ public class MainTeleOp extends OpMode{
     public void init(){
        robot.init(hardwareMap);
        timer = new Timer(robot);
+       shooterSystem = new ShooterSystem(robot);
        limitSwitchReset = new LimitSwitchReset(robot);
 
        robot.shooterBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -112,7 +113,7 @@ public class MainTeleOp extends OpMode{
     // Last year we didn't do this, but it's good to have buttons in one file
     @Override
     public void loop(){
-        shooterSystem.shootBall(850, 850, 1,1,1,1, gamepad1.left_trigger);
+        shooterSystem.shootBall(900, 900, 1,1,1,1, gamepad1.left_trigger);
 
         if(gamepad1.left_trigger < .69){
             shooterSystem.state = ShooterSystem.SHOOTSTATES.VELO;
