@@ -128,30 +128,29 @@ public class MainTeleOp extends OpMode{
         }
 
         // right trigger is like a stick with values from 0 to 1, same with left trigger
-        if(gamepad1.right_trigger < .69){
+
+        shooterSystem.shootBall(880, 880, 1,1,1,1, gamepad1.left_trigger);
+
+        if(gamepad1.yWasPressed()){
             indexSystem.state = IndexSystem.IndexStatesThreeBalls.INTAKEON;
-        }
-
-        shooterSystem.shootBall(850, 850, 1,1,1,1, gamepad1.left_trigger);
-
-        if(gamepad1.left_trigger < .69){
-            shooterSystem.state = ShooterSystem.SHOOTSTATES.VELO;
-        }
-        if (gamepad1.b){
-            indexSystem.stopAll();
         }
 
         if(gamepad1.dpad_left){
             shooterSystem.stop();
         }
+
+
+        if (gamepad1.b){
+            indexSystem.stopAll();
+        }
+
         //mecanum drivetrain
         driveTrainSystem.Drive(-gamepad1.right_stick_x,  gamepad1.left_stick_y, -gamepad1.left_stick_x, gamepad1.right_bumper, gamepad1.left_bumper);
 
         //print functions
+        //print functions
         telemetry.addData("front shooter velocity", robot.shooterFront.getVelocity());
         telemetry.addData("back shooter velocity", robot.shooterBack.getVelocity());
-        telemetry.addData("shooterstate", ShooterSystem.SHOOTSTATES.values());
-        telemetry.addData("timer", timer.timer());
         telemetry.update();
 
     }

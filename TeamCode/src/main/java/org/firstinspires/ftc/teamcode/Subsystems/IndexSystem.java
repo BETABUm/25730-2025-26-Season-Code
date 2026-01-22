@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch3;
 import org.firstinspires.ftc.teamcode.Individuals.LowServo;
 import org.firstinspires.ftc.teamcode.Individuals.Servo3;
 import org.firstinspires.ftc.teamcode.Individuals.Shooter;
+import org.firstinspires.ftc.teamcode.Individuals.Timer;
 import org.firstinspires.ftc.teamcode.RobotMap;
 
 
@@ -24,6 +25,7 @@ public class IndexSystem {
     private LimitSwitch3 limitSwitch3;
     private Shooter shooter;
     private HexIndexMotor hexIndexMotor;
+    private Timer timer;
 
     public IndexSystem (RobotMap robot){
         this.robot = robot;
@@ -35,6 +37,7 @@ public class IndexSystem {
         limitSwitch3 = new LimitSwitch3(robot);
         shooter = new Shooter(robot);
         hexIndexMotor = new HexIndexMotor(robot);
+        timer = new Timer(robot);
     }
 
     public enum IndexStatesThreeBalls {
@@ -68,14 +71,13 @@ public class IndexSystem {
                     break;
 
                 case SECONDSERVOSTOP:
-
-                    hexIndexMotor.stop();
                     if(Math.min(limitSwitch.get_value(),1) == 1){
                         state = IndexStatesThreeBalls.LOWSERVOINTAKESTOP;
                     }
                     break;
 
                 case LOWSERVOINTAKESTOP:
+                    timer.reset();
                     stopServos();
                     intake.stop();
                     break;

@@ -31,7 +31,6 @@ public class Move_Forward_Auto extends LinearOpMode {
         Servo3 servo3;
         IndexSystem indexSystem;
         ShooterSystem shooterSystem;
-        ShooterSystemAuto shooterSystemAuto;
         DriveTrainSystemAuto driveTrainSystemAuto;
 
 
@@ -48,7 +47,6 @@ public class Move_Forward_Auto extends LinearOpMode {
             servo3 = new Servo3(robot);
             indexSystem = new IndexSystem(robot);
             shooterSystem = new ShooterSystem(robot);
-            shooterSystemAuto = new ShooterSystemAuto(robot);
             driveTrainSystemAuto = new DriveTrainSystemAuto(robot);
 
             robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

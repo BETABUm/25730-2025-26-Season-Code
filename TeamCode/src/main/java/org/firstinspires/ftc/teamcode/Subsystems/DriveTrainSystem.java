@@ -30,7 +30,7 @@ public class DriveTrainSystem {
         } else if(left_bumper){
             sigmamode = 1;
         } else {
-            sigmamode = .75;
+            sigmamode = .8589;
         }
 
         double rotate = right_stick_x;
@@ -45,10 +45,10 @@ public class DriveTrainSystem {
 
         double maxPower = Math.max(Math.abs(cos), Math.abs(sin));
 
-        double frontLeft = (magnitude * cos + rotate * .7) / maxPower;
-        double backLeft  = (magnitude * sin + rotate * .7) / maxPower;
-        double frontRight = (magnitude * sin - rotate * .7) / maxPower;
-        double backRight  = (magnitude * cos - rotate * .7) / maxPower;
+        double frontLeft = (magnitude * cos + rotate) / maxPower;
+        double backLeft  = (magnitude * sin + rotate) / maxPower;
+        double frontRight = (magnitude * sin - rotate) / maxPower;
+        double backRight  = (magnitude * cos - rotate) / maxPower;
 
         frontLeft = frontLeft * sigmamode;
         backLeft *= sigmamode;

@@ -16,6 +16,8 @@ import org.firstinspires.ftc.teamcode.RobotMap;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainSystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IndexSystem;
 import org.firstinspires.ftc.teamcode.Subsystems.ShooterSystem;
+import org.firstinspires.ftc.teamcode.Subsystems.ShooterSystemAuto;
+import org.firstinspires.ftc.teamcode.Individuals.Timer;
 
 @Autonomous(name = "Three Piece + Move", preselectTeleOp = "MainTeleOp")
 public class Three_Piece_Move_Auto extends LinearOpMode {
@@ -35,6 +37,8 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
     ShooterSystemAuto shooterSystemAuto;
     DriveTrainSystemAuto driveTrainSystemAuto;
     LimitSwitchReset limitSwitchReset;
+    Timer timer;
+
 
 
     public void runOpMode() {
@@ -53,6 +57,7 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
         shooterSystemAuto = new ShooterSystemAuto(robot);
         driveTrainSystemAuto = new DriveTrainSystemAuto(robot);
         limitSwitchReset = new LimitSwitchReset(robot);
+        timer = new Timer(robot);
 
         robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -64,16 +69,20 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
 
 
         waitForStart();
+        int state = 0;
 
         if (opModeIsActive()) {
-            //stops intake once it gets to target pos
-            if ((robot.intake.getCurrentPosition() <= robot.intake.getTargetPosition() + 100) && (robot.intake.getCurrentPosition() > robot.intake.getTargetPosition()-100)) {
-                intake.stop();
-            }
+            switch(state){
+                case 0:
+                timer.reset();
+                 shooterSystemAuto.shootBallAuto(900,900,1,1,1,1);
+                 if( (timer.timer() >=20) || (shooterSystemAuto.state == ShooterSystemAuto.SHOOTSTATES2.DONESHOOTING)){
+                    state++;
+                 }
 
-            //stops shooter once it reaches target pos
-            if (shooter.check_position()) {
-                shooter.stop();
+                case 1:
+                    timer.reset();
+                     //
             }
 
         }

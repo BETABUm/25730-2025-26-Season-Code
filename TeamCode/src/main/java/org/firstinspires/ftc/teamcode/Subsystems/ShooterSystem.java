@@ -62,52 +62,52 @@ public class ShooterSystem {
             shooting = false;
         }
 
-            if (shooting) {
-                switch (state) {
-                    case VELO:
-                        timer.reset();
-                        shooter.setVelo(velocityf, velocityb);
-                        if ((Math.abs(shooter.get_velob() - velocityb) < 20) && ((Math.abs(shooter.get_velof() - velocityf) < 20))) {
-                            servo3.setPower(servoThreePower);
-                            state = SHOOTSTATES.FIRSTBALL;
-                            stateStartTime = timer.timer();
-                        }
-                        break;
+        if (shooting) {
+            switch (state) {
+                case VELO:
+                    timer.reset();
+                    shooter.setVelo(velocityf, velocityb);
+                    if (((Math.abs(shooter.get_velob() - velocityb) < 50) && ((Math.abs(shooter.get_velof() - velocityf) < 50))) || timer.timer() >=3) {
+                        servo3.setPower(servoThreePower);
+                        state = SHOOTSTATES.FIRSTBALL;
+                        stateStartTime = timer.timer();
+                    }
+                    break;
 
-                    case FIRSTBALL:
-                        if ((timer.timer() - stateStartTime >= 2) && ((Math.abs(shooter.get_velob() - velocityb) < 30) && ((Math.abs(shooter.get_velof() - velocityf) < 30)))) {
-                            state = SHOOTSTATES.SECONDBALL;
-                            stateStartTime = timer.timer();
-                        }
-                        break;
+                case FIRSTBALL:
+                    if (((timer.timer() - stateStartTime >= 2.5) && ((Math.abs(shooter.get_velob() - velocityb) < 50) && ((Math.abs(shooter.get_velof() - velocityf) < 50)))) || timer.timer() >= 3 ) {
+                        state = SHOOTSTATES.SECONDBALL;
+                        stateStartTime = timer.timer();
+                    }
+                    break;
 
-                    case SECONDBALL:
-                        hexIndexMotor.setPower(hexIndexPower);
-                        if ((timer.timer() - stateStartTime >= .05) && ((Math.abs(shooter.get_velob() - velocityb) < 30) && ((Math.abs(shooter.get_velof() - velocityf) < 30)))) {
-                            state = SHOOTSTATES.THIRDBALL;
-                            stateStartTime = timer.timer();
-                        }
-                        break;
+                case SECONDBALL:
+                    hexIndexMotor.setPower(hexIndexPower);
+                    if (((timer.timer() - stateStartTime >= .05) && ((Math.abs(shooter.get_velob() - velocityb) < 50) && ((Math.abs(shooter.get_velof() - velocityf) < 5 0))))| timer.timer() >= 3) {
+                        state = SHOOTSTATES.THIRDBALL;
+                        stateStartTime = timer.timer();
+                    }
+                    break;
 
-                    case THIRDBALL:
-                        lowServo.setPower(lowServoPowerL,lowServoPowerR);
-                        if ((timer.timer() - stateStartTime >= .02)) {
-                            state = SHOOTSTATES.DONESHOOTING;
-                            stateStartTime = timer.timer();
-                        }
-                        break;
+                case THIRDBALL:
+                    lowServo.setPower(lowServoPowerL,lowServoPowerR);
+                    if ((timer.timer() - stateStartTime >= .02)) {
+                        state = SHOOTSTATES.DONESHOOTING;
+                        stateStartTime = timer.timer();
+                    }
+                    break;
 
-                    case DONESHOOTING:
-                        if ((timer.timer() - stateStartTime >= 5)) {
-                            stop();
-                            shooting = false;
-                            state = SHOOTSTATES.VELO;
-                        }
-                        break;
+                case DONESHOOTING:
+                    if ((timer.timer() - stateStartTime >= 2)) {
+                        stop();
+                        shooting = false;
+                        state = SHOOTSTATES.VELO;
+                    }
+                    break;
 
-                }
             }
         }
+    }
 
     //stops all things related to our shooter
     public void stop(){
