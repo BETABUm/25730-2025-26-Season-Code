@@ -9,15 +9,61 @@ import org.firstinspires.ftc.teamcode.RobotMap;
 public class Shooter {
 
     private RobotMap robot;
-    private double P = 65;
-    private double F = 18;
+    private VoltageSensor voltageSensor;
 
+
+    private double P = 70;
+    private double F = 23.5;
 
     public Shooter(RobotMap robot) {
         this.robot = robot;
+        voltageSensor = new VoltageSensor(robot);
     }
 
 
+    public double setF() {
+        double voltage = voltageSensor.getVoltage();
+        if (voltage <= 12.10) {
+            F = 0;
+        } else if (voltage <= 12.5) {
+            F = 0;
+        } else if (voltage <= 13.0) {
+            F = 0;
+            /*
+        } else if (voltage <= 13.5) {
+            F = 19;
+        } else if (voltage <= 14.0) {
+            F = 18.75;
+        } else {
+            F = 17.5;
+        }
+         */
+
+        }
+        return F;
+    }
+
+    public double setP() {
+        double voltage = voltageSensor.getVoltage();
+        if (voltage <= 12.10) {
+            P = 2;
+        } else if (voltage <= 12.5) {
+            P = 0;
+        } else if (voltage <= 13.0) {
+            P = 0;
+            /*
+        } else if (voltage <= 13.5) {
+            P = ;
+        } else if (voltage <= 14.0) {
+            P = ;
+        } else {
+            P = ;
+        }
+         */
+
+        }
+        return P;
+    }
 
     public void set_power(double power, double power1) {
         robot.shooterBack.setPower(power1);
@@ -83,11 +129,16 @@ public class Shooter {
     }
 
     public void setVelo(double velocityf, double velocityb){
+        double voltage = voltageSensor.getVoltage();
+        double baseF = 18;
+        double baseB = 20.5;
 
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(160, 0, 0, baseF * (12.0 / voltage));
+
+        PIDFCoefficients pidfCoefficients2 = new PIDFCoefficients(160, 0, 0, baseB * (12.0 / voltage));
 
         robot.shooterFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-        robot.shooterBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        robot.shooterBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients2);
 
         robot.shooterBack.setVelocity(velocityb);
         robot.shooterFront.setVelocity(velocityf);

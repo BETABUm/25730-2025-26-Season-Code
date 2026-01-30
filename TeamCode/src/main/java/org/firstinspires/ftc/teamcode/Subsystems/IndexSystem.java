@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.Individuals.Intake;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch2;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch3;
+import org.firstinspires.ftc.teamcode.Individuals.LimitSwitchReset;
 import org.firstinspires.ftc.teamcode.Individuals.LowServo;
 import org.firstinspires.ftc.teamcode.Individuals.Servo3;
 import org.firstinspires.ftc.teamcode.Individuals.Shooter;
@@ -26,7 +27,11 @@ public class IndexSystem {
     private Shooter shooter;
     private HexIndexMotor hexIndexMotor;
     private Timer timer;
+    private LimitSwitchReset limitSwitchReset;
 
+    private boolean indexer = false;
+    private double stateStartTime;
+    private boolean wasPressed = false;
     public IndexSystem (RobotMap robot){
         this.robot = robot;
         intake = new Intake(robot);
@@ -38,23 +43,35 @@ public class IndexSystem {
         shooter = new Shooter(robot);
         hexIndexMotor = new HexIndexMotor(robot);
         timer = new Timer(robot);
+        limitSwitchReset = new LimitSwitchReset(robot, limitSwitch, limitSwitch2, limitSwitch3);
     }
 
     public enum IndexStatesThreeBalls {
 
-        INTAKEON, THIRDSERVOSTOP, SECONDSERVOSTOP, LOWSERVOINTAKESTOP
+        INTAKEON, THIRDSERVOSTOP, SECONDSERVOSTOP, LOWSERVOINTAKESTOP, IDK
     }
     public IndexStatesThreeBalls state = IndexStatesThreeBalls.INTAKEON;
 
 
-    public void intakeBall (double intakePow, double lowServoRight, double lowServoLeft, double hexIndexPower, double servoThreePower){
+    public void intakeBall (double intakePow, double lowServoRight, double lowServoLeft, double hexIndexPower, double servoThreePower, double rightTrigger) {
 
-            switch(state){
+        boolean triggerPressed = rightTrigger >= 0.69;
 
+        if (triggerPressed && !wasPressed) {
+            limitSwitchReset.resetLimitSwitches();
+            indexer = true;
+            timer.reset();
+            state = IndexStatesThreeBalls.INTAKEON;
+        }
+
+        wasPressed = triggerPressed;
+
+        if (indexer) {
+            switch (state) {
                 case INTAKEON:
                     intake.setPower(intakePow);
-                    runServos(servoThreePower,hexIndexPower,lowServoLeft,lowServoRight);
-                    if(Math.min(limitSwitch3.get_value(),1) == 1){
+                    runServos(servoThreePower, hexIndexPower, lowServoLeft, lowServoRight);
+                    if (Math.min(limitSwitch3.get_value(), 1) == 1) {
                         robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         robot.shooterFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         state = IndexStatesThreeBalls.THIRDSERVOSTOP;
@@ -63,7 +80,7 @@ public class IndexSystem {
 
                 case THIRDSERVOSTOP:
                     servoThree.stop();
-                    if(Math.min(limitSwitch2.get_value(),1) == 1){
+                    if (Math.min(limitSwitch2.get_value(), 1) == 1) {
                         hexIndexMotor.stop();
                         state = IndexStatesThreeBalls.SECONDSERVOSTOP;
                     }
@@ -71,19 +88,24 @@ public class IndexSystem {
                     break;
 
                 case SECONDSERVOSTOP:
-                    if(Math.min(limitSwitch.get_value(),1) == 1){
+                    if (Math.min(limitSwitch.get_value(), 1) == 1) {
                         state = IndexStatesThreeBalls.LOWSERVOINTAKESTOP;
+                        stateStartTime = timer.timer();
                     }
                     break;
 
                 case LOWSERVOINTAKESTOP:
-                    timer.reset();
                     stopServos();
                     intake.stop();
+                    limitSwitchReset.resetLimitSwitches();
+                    indexer = false;
+                    state = IndexStatesThreeBalls.IDK;
                     break;
 
             }
+        }
     }
+
 
     public void runServos(double servoThreePower, double hexIndexPower, double lowServoPowerL, double lowServoPowerR){
         servoThree.setPower(servoThreePower);
@@ -99,6 +121,14 @@ public class IndexSystem {
     public void stopAll(){
         stopServos();
         intake.stop();
+    }
+
+    public void cancelIndex(){
+        stopAll();
+        stopServos();
+        indexer = false;
+        wasPressed = false;
+        state = IndexStatesThreeBalls.IDK;
     }
 
 }

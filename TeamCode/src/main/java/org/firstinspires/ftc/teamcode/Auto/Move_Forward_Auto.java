@@ -61,7 +61,7 @@ public class Move_Forward_Auto extends LinearOpMode {
             waitForStart();
 
             if (opModeIsActive()) {
-
+                
             }
         }
     }

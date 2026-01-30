@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 public class RobotMap {
 
@@ -27,6 +28,7 @@ public class RobotMap {
     public DigitalChannel limitSwitch2;
     public DigitalChannel limitSwitch3;
     public DcMotorEx hexIndex;
+    public  VoltageSensor voltageSensor;
 
 
     public void init(HardwareMap robot) {
@@ -46,5 +48,6 @@ public class RobotMap {
         rightindex1 = robot.get(CRServo.class, "rightindex1");
         index3 = robot.get(CRServo.class, "index3");
         hexIndex = robot.get(DcMotorEx.class, "hexIndex");
+        voltageSensor = robot.get(VoltageSensor.class, "Control Hub");
     }
 }

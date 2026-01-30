@@ -39,6 +39,7 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
     LimitSwitchReset limitSwitchReset;
     Timer timer;
 
+    private double stateTime = 0;
 
 
     public void runOpMode() {
@@ -56,7 +57,7 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
         shooterSystem = new ShooterSystem(robot);
         shooterSystemAuto = new ShooterSystemAuto(robot);
         driveTrainSystemAuto = new DriveTrainSystemAuto(robot);
-        limitSwitchReset = new LimitSwitchReset(robot);
+        limitSwitchReset = new LimitSwitchReset(robot, limitSwitch, limitSwitch2, limitSwitch3);
         timer = new Timer(robot);
 
         robot.shooterBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -70,21 +71,37 @@ public class Three_Piece_Move_Auto extends LinearOpMode {
 
         waitForStart();
         int state = 0;
+        boolean brody = true;
 
         if (opModeIsActive()) {
-            switch(state){
-                case 0:
-                timer.reset();
-                 shooterSystemAuto.shootBallAuto(900,900,1,1,1,1);
-                 if( (timer.timer() >=20) || (shooterSystemAuto.state == ShooterSystemAuto.SHOOTSTATES2.DONESHOOTING)){
-                    state++;
-                 }
+            timer.reset();
+            while(opModeIsActive() && brody) {
+                switch (state) {
+                    case 0:
+                        shooterSystemAuto.shootBall(900, 900, 1,1,1,1);
+                        if ((timer.timer() >= 20) || (shooterSystemAuto.state == ShooterSystemAuto.SHOOTSTATESAUTO.IDK)) {
+                            state++;
+                            stateTime = timer.timer();
+                        }
+                        break;
 
-                case 1:
-                    timer.reset();
-                     //
+                    case 1:
+                        driveTrainSystemAuto.setDriveValues(1, 1, 1, 1, 2);
+                        state++;
+                        break;
+
+                    case 2:
+                        if (driveTrainSystemAuto.checkDriving()) {
+                            driveTrainSystemAuto.stop();
+                            state++;
+                        }
+                        break;
+
+                    case 3:
+                        brody = false;
+                        break;
+                }
             }
-
         }
     }
 }

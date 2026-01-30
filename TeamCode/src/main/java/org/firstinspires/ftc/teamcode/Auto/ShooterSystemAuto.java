@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Individuals.HexIndexMotor;
+import org.firstinspires.ftc.teamcode.Individuals.Intake;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch2;
 import org.firstinspires.ftc.teamcode.Individuals.LimitSwitch3;
@@ -29,8 +30,9 @@ public class ShooterSystemAuto {
     private HexIndexMotor hexIndexMotor;
     private Gamepad gamepad1;
     private Timer timer;
+    private Intake intake;
     private boolean shooting = false;
-
+    private boolean wasTriggerPressed = false;
     private double stateStartTime;
 
     //init and instances of other classes
@@ -43,63 +45,60 @@ public class ShooterSystemAuto {
         limitSwitch = new LimitSwitch(robot);
         limitSwitch2 = new LimitSwitch2(robot);
         limitSwitch3 = new LimitSwitch3(robot);
-        limitSwitchReset = new LimitSwitchReset(robot);
+        limitSwitchReset = new LimitSwitchReset(robot, limitSwitch, limitSwitch2, limitSwitch3);
         hexIndexMotor = new HexIndexMotor(robot);
         gamepad1 = new Gamepad();
+        intake = new Intake(robot);
         timer = new Timer(robot);
     }
 
-    public enum SHOOTSTATES2{
-        VELO, FIRSTBALL, CHECKSERVOS, SECONDBALL, CHECKSERVOS2, THIRDBALL, DONESHOOTING, DONEDONE;
+    public enum SHOOTSTATESAUTO{
+        VELO, FIRSTBALL, SECONDBALL, DONEDONE, IDK;
     }
 
-    public SHOOTSTATES2 state = SHOOTSTATES2.VELO;
-    public void shootBallAuto(double velocityf, double velocityb, double lowServoPowerL, double lowServoPowerR, double hexIndexPower, double servoThreePower) {
+    public SHOOTSTATESAUTO state = SHOOTSTATESAUTO.VELO;
+    public void shootBall(double velocityf, double velocityb, double lowServoPowerL, double lowServoPowerR, double hexIndexPower, double servoThreePower) {
 
-            switch (state) {
+            switch(state){
                 case VELO:
-                    timer.reset();
-                    shooter.setVelo(velocityf, velocityb);
-                    if (((Math.abs(shooter.get_velob() - velocityb) < 20) && ((Math.abs(shooter.get_velof() - velocityf) < 20))) || (timer.timer() >= 5)) {
-                        servo3.setPower(servoThreePower);
-                        state = SHOOTSTATES2.FIRSTBALL;
+                    shooter.setVelo(velocityf,velocityb);
+                    if ((Math.abs(shooter.get_velob() - velocityb) < 10) && ((Math.abs(shooter.get_velof() - velocityf) < 10))) {
+                        state = SHOOTSTATESAUTO.FIRSTBALL;
                         stateStartTime = timer.timer();
                     }
                     break;
-
                 case FIRSTBALL:
-                    if (((timer.timer() - stateStartTime >= 2.5) && ((Math.abs(shooter.get_velob() - velocityb) < 30) && ((Math.abs(shooter.get_velof() - velocityf) < 30)))) || (timer.timer() >= 5)) {
-                        state = SHOOTSTATES2.SECONDBALL;
-                        stateStartTime = timer.timer();
+                    servo3.setPower(servoThreePower);
+                    if(timer.timer() - stateStartTime >=1.5){
+                        state = SHOOTSTATESAUTO.SECONDBALL;
                     }
                     break;
-
                 case SECONDBALL:
+                    servo3.setPower(servoThreePower);
+                    intake.setPower(-1);
                     hexIndexMotor.setPower(hexIndexPower);
-                    if (((timer.timer() - stateStartTime >= .05) && ((Math.abs(shooter.get_velob() - velocityb) < 30) && ((Math.abs(shooter.get_velof() - velocityf) < 30)))) || (timer.timer() >= 5)) {
-                        state = SHOOTSTATES2.THIRDBALL;
-                        stateStartTime = timer.timer();
-                    }
-                    break;
-
-                case THIRDBALL:
                     lowServo.setPower(lowServoPowerL,lowServoPowerR);
-                    if ((timer.timer() - stateStartTime >= .02)) {
-                        state = SHOOTSTATES2.DONESHOOTING;
-                        stateStartTime = timer.timer();
+                    if(timer.timer() - stateStartTime >=5.67){
+                        state = SHOOTSTATESAUTO.DONEDONE;
                     }
                     break;
-
-                case DONESHOOTING:
-                    if ((timer.timer() - stateStartTime >= 2)) {
-                        stop();
-                        shooting = false;
-                    }
+                case DONEDONE:
+                    stop();
+                    intake.stop();
+                    state = SHOOTSTATESAUTO.IDK;
                     break;
-
             }
+
         }
 
+
+    public void cancelShooting(){
+        shooting = false;
+        wasTriggerPressed = false;
+        stop();
+        intake.stop();
+        state = SHOOTSTATESAUTO.IDK;
+    }
     //stops all things related to our shooter
     public void stop(){
         shooter.stop();

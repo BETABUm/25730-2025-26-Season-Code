@@ -10,11 +10,11 @@ public class LimitSwitchReset {
     private LimitSwitch2 limitSwitch2;
     private LimitSwitch3 limitSwitch3;
 
-    public LimitSwitchReset (RobotMap robot){
+    public LimitSwitchReset (RobotMap robot, LimitSwitch limitSwitch, LimitSwitch2 limitSwitch2, LimitSwitch3 limitSwitch3){
         this.robot = robot;
-        limitSwitch = new LimitSwitch(robot);
-        limitSwitch2 = new LimitSwitch2(robot);
-        limitSwitch3 = new LimitSwitch3(robot);
+        this.limitSwitch = limitSwitch;
+        this.limitSwitch2 = limitSwitch2;
+        this.limitSwitch3 = limitSwitch3;
     }
 
     public void resetLimitSwitches(){
